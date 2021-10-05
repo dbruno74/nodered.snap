@@ -6,3 +6,8 @@ tmp
 .remote-sync.json
 .DS*
 node-red_source.tar.bz2
+node-red_2.0.6_armhf.snap
+build_snap.sh
+parts
+prime
+stage

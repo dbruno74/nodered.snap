@@ -31,6 +31,7 @@ apps:
       - pulseaudio
       - removable-media
       - serial-port
+      - snapd-control
   npm:
     command: bin/npm
     plugs:
@@ -40,28 +41,58 @@ apps:
     command: bin/desktop-launch
     plugs:
       - desktop
+  node:
+    command: bin/node
+    plugs:
+      - audio-playback
+      - bluez
+      - bluetooth-control
+      - camera
+      - gpio
+      - home
+      - network-bind
+      - network
+      - network-observe
+      - pulseaudio
+      - removable-media
+      - serial-port
+      - snapd-control
 
 parts:
   node: # We dump in a specific version of node/npm from upstream.
     plugin: dump
     source:
-      - on amd64: https://nodejs.org/dist/v14.17.4/node-v14.17.4-linux-x64.tar.gz
-      - on armhf: https://nodejs.org/dist/v14.17.4/node-v14.17.4-linux-armv7l.tar.gz
-      - on arm64: https://nodejs.org/dist/v14.17.4/node-v14.17.4-linux-arm64.tar.gz
-      - on s390x: https://nodejs.org/dist/v14.17.4/node-v14.17.4-linux-s390x.tar.gz
+      - on amd64: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-x64.tar.gz
+      - on armhf: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-armv7l.tar.gz
+      - on arm64: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-arm64.tar.gz
+      - on s390x: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-s390x.tar.gz
   node-red:
     after: [node]
     plugin: nil # We use the nil plugin so we can fully override the build with whatever we need to do
     source: .
     stage-packages:
+      - coreutils
       - python
       - libatomic1
+      - bluetooth
+      - bluez
+      - libbluetooth3
+      - libbluetooth-dev
+      - libssl1.0.0
+      - libssl-dev
+      - libudev1
+      - libudev-dev
+      - libusb-1.0-0
+      - libusb-1.0-0-dev
+
+    build-packages:
+      - build-essential
     override-build: | # Whatever steps needed to install node-red into the install folder, which gets incorporated into the snap
       PATH=$PATH:../npm/bin
       apt-get install libatomic1
       npm config set unsafe-perm true
       # npm install --prefix $SNAPCRAFT_PART_INSTALL/lib
-      npm install --no-audit --no-fund --prefix $SNAPCRAFT_PART_INSTALL/lib node-red node-red-node-ping node-red-node-random node-red-node-rbe node-red-node-serialport
+      npm install --no-audit --no-fund --prefix $SNAPCRAFT_PART_INSTALL/lib utf8 node-red node-red-node-ping node-red-node-random node-red-node-serialport node-red-node-data-generator node-red-dashboard node-red-contrib-ui-multistate-switch node-red-node-ui-table @dbruno74/node-red-node-sensortag 
       find $SNAPCRAFT_PART_INSTALL -type f -name '*.js.swp' -delete
       find $SNAPCRAFT_PART_INSTALL/lib/node_modules -type d -name test -prune -exec rm -rf {} \;
       find $SNAPCRAFT_PART_INSTALL/lib/node_modules -type d -name doc -prune -exec rm -rf {} \;

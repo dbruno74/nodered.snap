@@ -4,7 +4,7 @@ summary: Low-code programming for event-driven applications
 description: Node-RED is a flow based programming application for wiring together hardware devices, APIs and online services in new and interesting ways. For more information see http://nodered.org
 confinement: strict
 grade: stable
-base: core18
+base: core22
 
 # Limit architectures as ppcel64 doesn't build currently
 architectures:
@@ -62,23 +62,23 @@ parts:
   node: # We dump in a specific version of node/npm from upstream.
     plugin: dump
     source:
-      - on amd64: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-x64.tar.gz
-      - on armhf: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-armv7l.tar.gz
-      - on arm64: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-arm64.tar.gz
-      - on s390x: https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-s390x.tar.gz
+      - on amd64: https://nodejs.org/dist/v14.19.3/node-v14.19.3-linux-x64.tar.gz
+      - on armhf: https://nodejs.org/dist/v14.19.3/node-v14.19.3-linux-armv7l.tar.gz
+      - on arm64: https://nodejs.org/dist/v14.19.3/node-v14.19.3-linux-arm64.tar.gz
+      - on s390x: https://nodejs.org/dist/v14.19.3/node-v14.19.3-linux-s390x.tar.gz
   node-red:
     after: [node]
     plugin: nil # We use the nil plugin so we can fully override the build with whatever we need to do
     source: .
     stage-packages:
       - coreutils
-      - python
+      - python3
       - libatomic1
       - bluetooth
       - bluez
       - libbluetooth3
       - libbluetooth-dev
-      - libssl1.0.0
+      - libssl3
       - libssl-dev
       - libudev1
       - libudev-dev

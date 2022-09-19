@@ -406,6 +406,7 @@ module.exports = {
      *    global.get("os")
      */
     functionGlobalContext: {
+        uuid:require('uuid'),
         // os:require('os'),
     },
 

@@ -406,7 +406,7 @@ module.exports = {
      *    global.get("os")
      */
     functionGlobalContext: {
-        uuid:require('uuid'),
+        uuid:require(process.env.SNAP + '/lib/node_modules/uuid'),
         // os:require('os'),
     },
 

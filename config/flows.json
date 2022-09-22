@@ -520,8 +520,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1150,
-        "y": 180,
+        "x": 1330,
+        "y": 140,
         "wires": []
     },
     {
@@ -547,7 +547,7 @@
         "seg1": "",
         "seg2": "",
         "x": 1150,
-        "y": 340,
+        "y": 320,
         "wires": []
     },
     {
@@ -596,10 +596,12 @@
         "y": 460,
         "wires": [
             [
-                "a0655998dd1b3718"
+                "a0655998dd1b3718",
+                "2dbeaf6682c28a0d"
             ],
             [
-                "a03222ad63609d24"
+                "a03222ad63609d24",
+                "9de301c9be099860"
             ],
             [
                 "8b91c59add63a4f2"
@@ -608,7 +610,8 @@
                 "a520027ba5d0bf7b"
             ],
             [
-                "b63cfee2e235adfe"
+                "b63cfee2e235adfe",
+                "7ea85d1d4ef3822d"
             ],
             [
                 "b7c2fdb348be9a07"
@@ -637,8 +640,9 @@
         ],
         "seg1": "",
         "seg2": "",
+        "className": "",
         "x": 1140,
-        "y": 400,
+        "y": 420,
         "wires": []
     },
     {
@@ -664,7 +668,7 @@
         "repair": false,
         "outputs": 2,
         "x": 750,
-        "y": 480,
+        "y": 620,
         "wires": [
             [
                 "60df902479cfadc6"
@@ -686,7 +690,7 @@
         "finalize": "",
         "libs": [],
         "x": 550,
-        "y": 480,
+        "y": 620,
         "wires": [
             [
                 "0a3ff9d24ac5be1b"
@@ -735,7 +739,7 @@
             }
         ],
         "x": 1130,
-        "y": 460,
+        "y": 600,
         "wires": [
             []
         ]
@@ -752,7 +756,7 @@
         "finalize": "",
         "libs": [],
         "x": 960,
-        "y": 460,
+        "y": 600,
         "wires": [
             [
                 "af482a2e386f378a"
@@ -801,7 +805,7 @@
             }
         ],
         "x": 1130,
-        "y": 500,
+        "y": 640,
         "wires": [
             []
         ]
@@ -818,7 +822,7 @@
         "finalize": "",
         "libs": [],
         "x": 960,
-        "y": 500,
+        "y": 640,
         "wires": [
             [
                 "4e53b37a60294da3"
@@ -863,7 +867,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1160,
-        "y": 540,
+        "y": 740,
         "wires": [
             []
         ]
@@ -880,10 +884,11 @@
         "finalize": "",
         "libs": [],
         "x": 560,
-        "y": 540,
+        "y": 720,
         "wires": [
             [
-                "b3cf728304c9b214"
+                "b3cf728304c9b214",
+                "d21a0938ce8ca62f"
             ]
         ]
     },
@@ -910,7 +915,7 @@
         "seg1": "",
         "seg2": "",
         "x": 1150,
-        "y": 580,
+        "y": 540,
         "wires": []
     },
     {
@@ -957,6 +962,7 @@
         "officon": "",
         "offcolor": "",
         "animate": false,
+        "className": "",
         "x": 130,
         "y": 100,
         "wires": [
@@ -1055,7 +1061,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1150,
-        "y": 620,
+        "y": 840,
         "wires": [
             []
         ]
@@ -1072,10 +1078,11 @@
         "finalize": "",
         "libs": [],
         "x": 550,
-        "y": 620,
+        "y": 840,
         "wires": [
             [
-                "459bd54fe662988c"
+                "459bd54fe662988c",
+                "5220446e825dadd6"
             ]
         ]
     },
@@ -1123,6 +1130,7 @@
         "officon": "",
         "offcolor": "",
         "animate": false,
+        "className": "",
         "x": 130,
         "y": 260,
         "wires": [
@@ -1130,6 +1138,340 @@
                 "bb07b2f8b23bd67f"
             ]
         ]
+    },
+    {
+        "id": "2dbeaf6682c28a0d",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare POST for EdgeX",
+        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'temperature'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.ambient\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 280,
+        "wires": [
+            [
+                "6fa849a2adcfd99e",
+                "80372868827a3c65"
+            ]
+        ]
+    },
+    {
+        "id": "6fa849a2adcfd99e",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 280,
+        "wires": [
+            [
+                "80372868827a3c65"
+            ]
+        ]
+    },
+    {
+        "id": "80372868827a3c65",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1330,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9de301c9be099860",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare POST for EdgeX",
+        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'humidity'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.humidity\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 380,
+        "wires": [
+            [
+                "5e890638797047c2",
+                "fb36e54a810b13f0"
+            ]
+        ]
+    },
+    {
+        "id": "5e890638797047c2",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 380,
+        "wires": [
+            [
+                "fb36e54a810b13f0"
+            ]
+        ]
+    },
+    {
+        "id": "fb36e54a810b13f0",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1330,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a5ed68f099e9f11e",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload.humidity",
+                "v": "80",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 630,
+        "y": 280,
+        "wires": [
+            [
+                "9de301c9be099860"
+            ]
+        ]
+    },
+    {
+        "id": "d21a0938ce8ca62f",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare POST for EdgeX",
+        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'accelerometer_' + msg.topic\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 700,
+        "wires": [
+            [
+                "e7ccb42d5c9a249e",
+                "35d4d65f9e53dbcb"
+            ]
+        ]
+    },
+    {
+        "id": "e7ccb42d5c9a249e",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 700,
+        "wires": [
+            [
+                "35d4d65f9e53dbcb"
+            ]
+        ]
+    },
+    {
+        "id": "35d4d65f9e53dbcb",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1330,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "5220446e825dadd6",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare POST for EdgeX",
+        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'luxometer'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 800,
+        "wires": [
+            [
+                "f41ac75ff7306d14",
+                "7903bbb8c21c6015"
+            ]
+        ]
+    },
+    {
+        "id": "f41ac75ff7306d14",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 800,
+        "wires": [
+            [
+                "7903bbb8c21c6015"
+            ]
+        ]
+    },
+    {
+        "id": "7903bbb8c21c6015",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1330,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "7ea85d1d4ef3822d",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare POST for EdgeX",
+        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'batteryLevel'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.val\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 500,
+        "wires": [
+            [
+                "a108b4e3309119cb",
+                "84a5fc2733da4f1e"
+            ]
+        ]
+    },
+    {
+        "id": "a108b4e3309119cb",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1150,
+        "y": 500,
+        "wires": [
+            [
+                "84a5fc2733da4f1e"
+            ]
+        ]
+    },
+    {
+        "id": "84a5fc2733da4f1e",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1330,
+        "y": 460,
+        "wires": []
     },
     {
         "id": "7fa903afbafef497",
@@ -2011,6 +2353,7 @@
         "once": true,
         "onceDelay": "",
         "topic": "/v2/",
+        "payload": "",
         "payloadType": "date",
         "x": 120,
         "y": 940,

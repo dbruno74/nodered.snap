@@ -1,0 +1,71 @@
+name: "Sensortag-Profile"
+manufacturer: "TI"
+model: "LPSTK-CC1352R"
+labels:
+ - "sensortag"
+description: "TI Sensortag profile"
+deviceResources:
+ -
+        name: temperature
+        isHidden: false
+        description: "temperature sensor (Celsius)"
+        properties:
+           valueType: "Float32"
+           readWrite: "R"
+ -
+        name: humidity
+        isHidden: false
+        description: "humidity sensor (%)"
+        properties:
+           valueType: "Int16"
+           readWrite: "R"
+ -
+        name: leftButton
+        isHidden: false
+        description: "Left Button"
+        properties:
+           valueType: "Int8"
+           readWrite: "RW"
+ -
+        name: rightButton
+        isHidden: false
+        description: "Right Button"
+        properties:
+           valueType: "Int8"
+           readWrite: "RW"
+ -
+        name: accelerometer_x
+        isHidden: false
+        description: "Accelerometer sensor (x)"
+        properties:
+           valueType: "Float32"
+           readWrite: "R"
+ -
+        name: accelerometer_y
+        isHidden: false
+        description: "Accelerometer sensor (y)"
+        properties:
+           valueType: "Float32"
+           readWrite: "R"
+ -
+        name: accelerometer_z
+        isHidden: false
+        description: "Accelerometer sensor (z)"
+        properties:
+           valueType: "Float32"
+           readWrite: "R"
+ -
+        name: batteryLevel
+        isHidden: false
+        description: "Battery Level"
+        properties:
+           valueType: "Int32"
+           readWrite: "R"
+ -
+        name: luxometer
+        isHidden: false
+        description: "Luxometer sensor"
+        properties:
+           valueType: "Float32"
+           readWrite: "R"
+

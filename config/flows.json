@@ -14,6 +14,14 @@
         "info": ""
     },
     {
+        "id": "6f115337e98614cb",
+        "type": "tab",
+        "label": "EdgeX configuration",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "3df6bc4c6c47ac6a",
         "type": "ui_group",
         "name": "Ambient",
@@ -357,7 +365,7 @@
     {
         "id": "41f30851e6cb7102",
         "type": "ui_group",
-        "name": "BLE Status",
+        "name": "Device Status",
         "tab": "862cabe5ab0b919d",
         "order": 4,
         "disp": true,
@@ -387,9 +395,9 @@
         "wires": [
             [
                 "351f04c959ed7a95",
-                "87e556072cc93f2c",
                 "5e9b0e9ef91a8625",
-                "c06bb902a950c4cb"
+                "c06bb902a950c4cb",
+                "87e556072cc93f2c"
             ]
         ]
     },
@@ -433,7 +441,7 @@
         "seg1": "",
         "seg2": "",
         "x": 530,
-        "y": 660,
+        "y": 640,
         "wires": []
     },
     {
@@ -800,8 +808,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 550,
-        "y": 460,
+        "x": 530,
+        "y": 500,
         "wires": []
     },
     {
@@ -1030,7 +1038,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "prepare POST for EdgeX",
-        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'temperature'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.ambient\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "func": "var coredata_url = \"http://localhost:59880/api/v2/\"\nvar apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'temperature'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.ambient\n\nmsg.url = coredata_url + \"event/Sensortag-Profile/sensortag1/\" + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1091,7 +1099,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "prepare POST for EdgeX",
-        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'humidity'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.humidity\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "func": "var coredata_url = \"http://localhost:59880/api/v2/\"\nvar apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'humidity'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.humidity\n\nmsg.url = coredata_url + \"event/Sensortag-Profile/sensortag1/\" + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1152,7 +1160,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "prepare POST for EdgeX",
-        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'accelerometer_' + msg.topic\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "func": "var coredata_url = \"http://localhost:59880/api/v2/\"\nvar apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'accelerometer_' + msg.topic\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = coredata_url + \"event/Sensortag-Profile/sensortag1/\" + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1213,7 +1221,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "prepare POST for EdgeX",
-        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'luxometer'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "func": "var coredata_url = \"http://localhost:59880/api/v2/\"\nvar apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'luxometer'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload\n\nmsg.url = coredata_url + \"event/Sensortag-Profile/sensortag1/\" + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1274,18 +1282,17 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "prepare POST for EdgeX",
-        "func": "var apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'batteryLevel'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.val\n\nmsg.url = 'http://localhost:59880/api/v2/event/Sensortag-Profile/sensortag1/' + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
+        "func": "var coredata_url = \"http://localhost:59880/api/v2/\"\nvar apiVersion = '\"v2\"'\nvar uuid = global.get(\"uuid\")\nvar uuid1 = uuid.v4()\nvar uuid2 = uuid.v4()\nvar date = new Date()\nvar timestamp = date.getTime()*1000000\n\nvar profileName = '\"Sensortag-Profile\"'\nvar deviceName = '\"sensortag1\"'\nvar serviceUrl = 'batteryLevel'\nvar sourceName = '\"' + serviceUrl + '\"'\nvar resourceName = '\"' + serviceUrl + '\"'\nvar valueType = '\"Float32\"'\nvar value = msg.payload.val\n\nmsg.url = coredata_url + \"event/Sensortag-Profile/sensortag1/\" + serviceUrl\nmsg.payload = '{\"apiVersion\": ' + apiVersion +', \"event\": ' +\n                   '{\"apiVersion\": ' + apiVersion + ',' +\n                    '\"deviceName\": '+ deviceName + ',' +\n                    '\"profileName\": ' + profileName + ',' +\n                    '\"sourceName\": ' + sourceName + ',' +\n                    '\"id\":\"' + uuid1 +'\",' +\n                    '\"origin\": ' + timestamp + ',' +\n                    '\"readings\": ' +\n                         '[{\"id\":\"' + uuid2 + '\",' +\n                           '\"origin\": ' + timestamp + ',' +\n                           '\"deviceName\": ' + deviceName + ',' + \n                           '\"resourceName\": ' + resourceName + ',' +\n                           '\"profileName\": ' + profileName + ',' +\n                           '\"valueType\": ' + valueType + ',' +\n                           '\"value\": \"' + value + '\"' +\n                           '}]}}'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 770,
-        "y": 500,
+        "y": 540,
         "wires": [
             [
-                "a108b4e3309119cb",
-                "84a5fc2733da4f1e"
+                "a108b4e3309119cb"
             ]
         ]
     },
@@ -1306,29 +1313,10 @@
         "senderr": false,
         "headers": [],
         "x": 1010,
-        "y": 500,
+        "y": 540,
         "wires": [
-            [
-                "84a5fc2733da4f1e"
-            ]
+            []
         ]
-    },
-    {
-        "id": "84a5fc2733da4f1e",
-        "type": "debug",
-        "z": "ea5d4dd247fe2c99",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1170,
-        "y": 460,
-        "wires": []
     },
     {
         "id": "2436c0b5719f36d9",
@@ -1360,38 +1348,21 @@
         ]
     },
     {
-        "id": "e3eb76ead4b61e90",
-        "type": "ui_text",
-        "z": "ea5d4dd247fe2c99",
-        "group": "41f30851e6cb7102",
-        "order": 1,
-        "width": "6",
-        "height": "1",
-        "name": "BLE Status",
-        "label": "",
-        "format": "<font color= {{msg.color}} > {{msg.payload.status}} </font>",
-        "layout": "row-left",
-        "className": "",
-        "x": 1150,
-        "y": 40,
-        "wires": []
-    },
-    {
         "id": "5e9b0e9ef91a8625",
         "type": "function",
         "z": "ea5d4dd247fe2c99",
-        "name": "filter and colorize",
-        "func": "if (msg.payload.status == 'connected') {\n    msg.color = 'green'; \n     msg.payload.status = 'connected to ' + msg.payload.device;\n    return msg;\n}else {\n    if (msg.payload.status == 'connecting') {\n        msg.color = 'darkOrange'; \n        msg.payload.status = 'connecting to ' + msg.payload.device;\n        return msg;\n    }else {\n        if (msg.payload.status == 'disconnected') {\n            msg.color = 'red'; \n            return msg;\n        } else {\n            if (msg.payload.status == 'discovering') {\n                msg.color = 'blue'; \n                msg.payload.status = 'discovering ...';\n                return msg;\n            }\n        }\n    }  \n}",
+        "name": "filter data",
+        "func": "if (msg.payload.status == 'connected') {\n    msg.payload = 'connected';\n    return msg;\n}else {\n    if (msg.payload.status == 'connecting') {\n        msg.payload = 'connecting';\n        return msg;\n    }else {\n        if (msg.payload.status == 'disconnected') {\n            msg.payload = 'disconnected'; \n            return msg;\n        } else {\n            if (msg.payload.status == 'discovering') {\n                msg.payload = 'discovering';\n                return msg;\n            }\n        }\n    }  \n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 750,
+        "x": 720,
         "y": 40,
         "wires": [
             [
-                "e3eb76ead4b61e90"
+                "6c1b111ba3323868"
             ]
         ]
     },
@@ -1401,11 +1372,11 @@
         "z": "ea5d4dd247fe2c99",
         "name": "Reconnect",
         "group": "41f30851e6cb7102",
-        "order": 3,
+        "order": 2,
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "RECONNECT",
+        "label": "RECONNECT SENSOR",
         "tooltip": "",
         "color": "",
         "bgcolor": "#4e052e",
@@ -1427,7 +1398,7 @@
         "id": "fada3566e7df2acc",
         "type": "ui_led",
         "z": "ea5d4dd247fe2c99",
-        "order": 2,
+        "order": 3,
         "group": "41f30851e6cb7102",
         "width": 0,
         "height": 0,
@@ -1551,8 +1522,8 @@
         "z": "ea5d4dd247fe2c99",
         "name": "EdgeX Integration",
         "info": "",
-        "x": 790,
-        "y": 440,
+        "x": 750,
+        "y": 360,
         "wires": []
     },
     {
@@ -1561,8 +1532,289 @@
         "z": "ea5d4dd247fe2c99",
         "name": "node-red GUI",
         "info": "",
-        "x": 550,
+        "x": 530,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "16552d15059418bb",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 750,
         "y": 400,
+        "wires": [
+            [
+                "4cfff32bbc229c75"
+            ]
+        ]
+    },
+    {
+        "id": "1484cd633c90cb39",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1070,
+        "y": 400,
+        "wires": [
+            [
+                "50a4e0cfd404b8c8"
+            ]
+        ]
+    },
+    {
+        "id": "4cfff32bbc229c75",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Prepare url",
+        "func": "msg.url = \"http://localhost:1880/\" + \"ping_edgex_core_metadata\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 400,
+        "wires": [
+            [
+                "1484cd633c90cb39"
+            ]
+        ]
+    },
+    {
+        "id": "b4d12f8529373b45",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 750,
+        "y": 440,
+        "wires": [
+            [
+                "59e4b9d3f595b00c"
+            ]
+        ]
+    },
+    {
+        "id": "f3ac3abe45ce6b33",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1070,
+        "y": 440,
+        "wires": [
+            [
+                "284ed856203bf96b"
+            ]
+        ]
+    },
+    {
+        "id": "59e4b9d3f595b00c",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Prepare url",
+        "func": "msg.url = \"http://localhost:1880/\" + \"ping_edgex_core_data\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 440,
+        "wires": [
+            [
+                "f3ac3abe45ce6b33"
+            ]
+        ]
+    },
+    {
+        "id": "83518aa2371aa085",
+        "type": "ui_led",
+        "z": "ea5d4dd247fe2c99",
+        "order": 4,
+        "group": "41f30851e6cb7102",
+        "width": 0,
+        "height": 0,
+        "label": "EdgeX Core Metadata",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "EdgeX Core Data Service Status ",
+        "x": 1500,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "a61a292bc62ac45a",
+        "type": "ui_led",
+        "z": "ea5d4dd247fe2c99",
+        "order": 5,
+        "group": "41f30851e6cb7102",
+        "width": 0,
+        "height": 0,
+        "label": "EdgeX Core Data ",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "EdgeX Core Data Service Status ",
+        "x": 1500,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "50a4e0cfd404b8c8",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "led function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = true\nelse\n    msg.payload = false\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 400,
+        "wires": [
+            [
+                "83518aa2371aa085"
+            ]
+        ]
+    },
+    {
+        "id": "284ed856203bf96b",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "led function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = true\nelse\n    msg.payload = false\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 440,
+        "wires": [
+            [
+                "a61a292bc62ac45a"
+            ]
+        ]
+    },
+    {
+        "id": "6c1b111ba3323868",
+        "type": "ui_led",
+        "z": "ea5d4dd247fe2c99",
+        "order": 1,
+        "group": "41f30851e6cb7102",
+        "width": 0,
+        "height": 0,
+        "label": "BLE Status",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "connected",
+                "valueType": "str"
+            },
+            {
+                "color": "#ffa500",
+                "value": "connecting",
+                "valueType": "str"
+            },
+            {
+                "color": "#ff0000",
+                "value": "disconnected",
+                "valueType": "str"
+            },
+            {
+                "color": "#0000ff",
+                "value": "discovering",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "BLE Status",
+        "x": 1150,
+        "y": 40,
         "wires": []
     },
     {
@@ -2911,6 +3163,398 @@
             [
                 "3ff6d917fbac152e"
             ]
+        ]
+    },
+    {
+        "id": "30dc3ab1598f37c9",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "Create device profile",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 300,
+        "wires": [
+            [
+                "016e44da8ce94fbf"
+            ]
+        ]
+    },
+    {
+        "id": "26d78d7c70f67f3b",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Set service profile filename",
+        "func": "var base_dir = env.get(\"SNAP_DATA\");\nmsg.filename = base_dir + \"/\" + flow.get(\"device_service_profile_filename\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 220,
+        "wires": [
+            [
+                "6f08acba8b5a4e24"
+            ]
+        ]
+    },
+    {
+        "id": "4766788cc9c8e0c9",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "setup",
+        "func": "global.set(\"core-data_url\",\"http://localhost:59880/api/v2/\" )\nglobal.set(\"core-metadata_url\",\"http://localhost:59881/api/v2/\" )\n\nlet device_name = \"sensortag1\"\nlet device_description = \"TI Sensortag #1\"\n\nlet register_device_service = {\n    \"name\": \"sensortag-control-device-service\",\n    \"description\": \"Manage Sensortag data\", \n    \"adminState\": \"UNLOCKED\", \n    \"labels\": [\"sensortag\",\"data\"], \n    \"baseAddress\": \"sensortag-device-service:59990\"\n}\n\nlet provision_device = {\n    \"name\": device_name,\n    \"description\": device_description,\n    \"adminState\": \"UNLOCKED\",\n    \"operatingState\": \"UP\",\n    \"labels\": [\"sensortag\",\"data\"],\n    \"location\": \"{lat:45.45,long:47.80}\",\n    \"serviceName\": \"sensortag-control-device-service\",\n    \"profileName\": \"Sensortag-Profile\",\n    \"protocols\": {\"sensortag-protocol\": {\"sensortag-address\": \"localhost\",\"port\": \"1234\",\"unitID\": \"1\"}},\n    \"notify\": false\n}\n    \nflow.set(\"device_service_profile_filename\",\"EdgeX_SensortagProfile.yml\")\nflow.set(\"register_device_service\", register_device_service);\nflow.set(\"provision_device\", provision_device);\nglobal.set(\"device_name\",device_name);\n\nreturn [msg, null];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "26d78d7c70f67f3b"
+            ]
+        ]
+    },
+    {
+        "id": "19de334a90e47cd2",
+        "type": "inject",
+        "z": "6f115337e98614cb",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": ".1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "4766788cc9c8e0c9"
+            ]
+        ]
+    },
+    {
+        "id": "6f08acba8b5a4e24",
+        "type": "file in",
+        "z": "6f115337e98614cb",
+        "name": "read service profile file",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 720,
+        "y": 220,
+        "wires": [
+            [
+                "feaadf842eaf8586"
+            ]
+        ]
+    },
+    {
+        "id": "feaadf842eaf8586",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Set upload file",
+        "func": "var databuffer = msg.payload;\nmsg.url = global.get(\"core-metadata_url\") + \"deviceprofile/uploadfile\";\nmsg.headers = {\n     \"Content-Type\" : \"multipart/form-data; boundary=---edgexfoundry98234298324989234\"\n     }\nmsg.payload =  \n'-----edgexfoundry98234298324989234\\r\\n'+\n'Content-Disposition: form-data; name=\"file\"; filename=\"'+ flow.get(\"device_service_profile_filename\") + '\"\\r\\n'+\n'Content-Type: application/octet-stream\\r\\n'+\n'\\r\\n'+\ndatabuffer +\n'\\r\\n'+\n'-----edgexfoundry98234298324989234--'+\n'\\r\\n'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "30dc3ab1598f37c9"
+            ]
+        ]
+    },
+    {
+        "id": "6b1b14e377e1799c",
+        "type": "http in",
+        "z": "6f115337e98614cb",
+        "name": "EdgeX Health Check - core metatada",
+        "url": "/ping_edgex_core_metadata",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 60,
+        "wires": [
+            [
+                "0b9f74dd5609899a"
+            ]
+        ]
+    },
+    {
+        "id": "dfd4f4f1b459843c",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 60,
+        "wires": [
+            [
+                "513d701e2f476274"
+            ]
+        ]
+    },
+    {
+        "id": "0b9f74dd5609899a",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "set url",
+        "func": "msg.url = global.get(\"core-metadata_url\") + \"ping\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 60,
+        "wires": [
+            [
+                "dfd4f4f1b459843c"
+            ]
+        ]
+    },
+    {
+        "id": "e28ae48c4aa4658a",
+        "type": "http response",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6650b9ba8815bd2f",
+        "type": "http in",
+        "z": "6f115337e98614cb",
+        "name": "EdgeX Health Check - core data",
+        "url": "/ping_edgex_core_data",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "90c62b24fe655b05"
+            ]
+        ]
+    },
+    {
+        "id": "80adf23fba4f09be",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "c5e9c9808081e773"
+            ]
+        ]
+    },
+    {
+        "id": "90c62b24fe655b05",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "set url",
+        "func": "msg.url = global.get(\"core-data_url\") + \"ping\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 100,
+        "wires": [
+            [
+                "80adf23fba4f09be"
+            ]
+        ]
+    },
+    {
+        "id": "5d455deccd90e4e7",
+        "type": "http response",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c5e9c9808081e773",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Prepare status code",
+        "func": "if (msg.statusCode != \"200\")\n    msg.statusCode = 503\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 100,
+        "wires": [
+            [
+                "5d455deccd90e4e7"
+            ]
+        ]
+    },
+    {
+        "id": "513d701e2f476274",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Prepare status code",
+        "func": "if (msg.statusCode != \"200\")\n    msg.statusCode = 503\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 60,
+        "wires": [
+            [
+                "e28ae48c4aa4658a"
+            ]
+        ]
+    },
+    {
+        "id": "016e44da8ce94fbf",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Set url and body",
+        "func": "msg.url = global.get(\"core-metadata_url\") + \"deviceservice\";\nmsg.payload = '[{\"apiVersion\": \"v2\",\"service\": {\"name\": \"sensortag-control-device-service\",\"description\": \"Manage Sensortag data\", \"adminState\": \"UNLOCKED\", \"labels\": [\"sensortag\",\"data\"], \"baseAddress\": \"sensortag-device-service:59990\"}}]'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 380,
+        "wires": [
+            [
+                "7983eae0cfbe9606"
+            ]
+        ]
+    },
+    {
+        "id": "7983eae0cfbe9606",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "Create device service",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "90a35f5b34836e57"
+            ]
+        ]
+    },
+    {
+        "id": "90a35f5b34836e57",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Set url and body",
+        "func": "msg.url = global.get(\"core-metadata_url\") + \"device\";\nmsg.payload = '[{\"apiVersion\": \"v2\", \"device\": {\"name\": \"sensortag1\",\"description\": \"TI Sensortag #1\",\"adminState\": \"UNLOCKED\",\"operatingState\": \"UP\",\"labels\": [\"sensortag\",\"data\"],\"location\": \"{lat:45.45,long:47.80}\",\"serviceName\": \"sensortag-control-device-service\",\"profileName\": \"Sensortag-Profile\",\"protocols\": {\"sensortag-protocol\": {\"camera-address\": \"localhost\",\"port\": \"1234\",\"unitID\": \"1\"}},\"notify\": false}}]'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 460,
+        "wires": [
+            [
+                "c685577e7aa14284"
+            ]
+        ]
+    },
+    {
+        "id": "c685577e7aa14284",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "Provision the device",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 460,
+        "wires": [
+            []
         ]
     }
 ]

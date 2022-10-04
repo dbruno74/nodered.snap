@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# copy grafana.ini
-cp $SNAP/config/grafana.ini ${SNAP_DATA}/grafana
-

@@ -140,12 +140,5 @@ plugs:
     content: writable-data
     target: $SNAP_DATA/grafana
 
-hooks:
-  connect-plug-writable:
-    plugs: 
-      - network-bind
-      - network
-      - network-observe
-      - snapd-control
 
 

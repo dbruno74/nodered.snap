@@ -84,6 +84,7 @@ parts:
       - libudev-dev
       - libusb-1.0-0
       - libusb-1.0-0-dev
+      - curl
 
     build-packages:
       - build-essential
@@ -131,3 +132,20 @@ parts:
     plugin: nil
     override-build: |
       cp -r config $SNAPCRAFT_PART_INSTALL/
+
+
+plugs:
+  writable:
+    interface: content
+    content: writable-data
+    target: $SNAP_DATA/grafana
+
+hooks:
+  connect-plug-writable:
+    plugs: 
+      - network-bind
+      - network
+      - network-observe
+      - snapd-control
+
+

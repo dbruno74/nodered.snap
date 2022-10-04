@@ -1,3 +1,4 @@
 #!/bin/sh
 
 cp -r $SNAP/config/* ${SNAP_DATA}
+mkdir -p ${SNAP_DATA}/grafana

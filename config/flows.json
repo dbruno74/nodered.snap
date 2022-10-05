@@ -22,6 +22,14 @@
         "env": []
     },
     {
+        "id": "085a1f4e80349b48",
+        "type": "tab",
+        "label": "Grafana configuration",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "3df6bc4c6c47ac6a",
         "type": "ui_group",
         "name": "Ambient",
@@ -1312,7 +1320,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1010,
+        "x": 990,
         "y": 540,
         "wires": [
             []
@@ -1818,6 +1826,302 @@
         "wires": []
     },
     {
+        "id": "0c451049247d9efc",
+        "type": "comment",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Grafana Integration",
+        "info": "",
+        "x": 750,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "b7453b7ff6672175",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 730,
+        "y": 1180,
+        "wires": [
+            [
+                "a928fdada2b655e1"
+            ]
+        ]
+    },
+    {
+        "id": "5e2427aae1fe6002",
+        "type": "http request",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1050,
+        "y": 1180,
+        "wires": [
+            [
+                "c220d5b5c3ea2154"
+            ]
+        ]
+    },
+    {
+        "id": "a928fdada2b655e1",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Prepare url",
+        "func": "msg.url = global.get(\"grafana_protocol\") + global.get(\"grafana_admin\") + \"@\" + global.get(\"grafana_host\") + \":\" + global.get(\"grafana_port\") + \"/api/health\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1180,
+        "wires": [
+            [
+                "5e2427aae1fe6002"
+            ]
+        ]
+    },
+    {
+        "id": "ac677b4f6e8af3ec",
+        "type": "ui_led",
+        "z": "ea5d4dd247fe2c99",
+        "order": 6,
+        "group": "41f30851e6cb7102",
+        "width": 0,
+        "height": 0,
+        "label": "Grafana",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Grafana Health",
+        "x": 1420,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "c220d5b5c3ea2154",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "led function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = true\nelse\n    msg.payload = false\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 1180,
+        "wires": [
+            [
+                "ac677b4f6e8af3ec"
+            ]
+        ]
+    },
+    {
+        "id": "86813e80ade3aad6",
+        "type": "ui_button",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Open Grafana dashboard 1",
+        "group": "41f30851e6cb7102",
+        "order": 7,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Grafana dashboard 1",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "db1",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 780,
+        "y": 1240,
+        "wires": [
+            [
+                "1b7fce9a96e9652e"
+            ]
+        ]
+    },
+    {
+        "id": "4f7526c75666b5a4",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "41f30851e6cb7102",
+        "name": "window redirect",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data == \"db1\") {\n          window.open(\"http://\" + window.location.hostname + \":3000/d/TyoT6kigj\", \"_blank\");\n        } \n        if (data == \"db2\") {\n          window.open(\"http://\" + window.location.hostname + \":3000/d/TyoT6kigh\", \"_blank\");\n        }\n    });\n})(scope);\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1180,
+        "y": 1260,
+        "wires": [
+            [
+                "71f2ad0d3f19c58e"
+            ]
+        ]
+    },
+    {
+        "id": "1b7fce9a96e9652e",
+        "type": "trigger",
+        "z": "ea5d4dd247fe2c99",
+        "name": "reset msg",
+        "op1": "",
+        "op2": "empty",
+        "op1type": "pay",
+        "op2type": "str",
+        "duration": "250",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1000,
+        "y": 1260,
+        "wires": [
+            [
+                "4f7526c75666b5a4"
+            ]
+        ]
+    },
+    {
+        "id": "71f2ad0d3f19c58e",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1350,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "1a99954e8adb443c",
+        "type": "ui_button",
+        "z": "ea5d4dd247fe2c99",
+        "name": "Open Grafana dashboard 2",
+        "group": "41f30851e6cb7102",
+        "order": 7,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Grafana dashboard 2",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "db2",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 780,
+        "y": 1300,
+        "wires": [
+            [
+                "1b7fce9a96e9652e"
+            ]
+        ]
+    },
+    {
+        "id": "2f46a1218fd245cd",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1300,
+        "y": 820,
+        "wires": [
+            [
+                "9dd5c1ceb1948956"
+            ]
+        ]
+    },
+    {
+        "id": "9dd5c1ceb1948956",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1480,
+        "y": 820,
+        "wires": []
+    },
+    {
         "id": "7fa903afbafef497",
         "type": "snapd",
         "z": "a9aa78485087f860",
@@ -2042,7 +2346,7 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 800,
+        "x": 780,
         "y": 260,
         "wires": []
     },
@@ -3556,5 +3860,742 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "2730643cefd8143b",
+        "type": "inject",
+        "z": "6f115337e98614cb",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "4ad1a7f4877e4ca0"
+            ]
+        ]
+    },
+    {
+        "id": "a659548aca3cd339",
+        "type": "snapd",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "647a94e5dce1d52a"
+            ]
+        ]
+    },
+    {
+        "id": "4ad1a7f4877e4ca0",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Start EdgeX",
+        "func": "msg.topic = \"snapd_rest_api_post\"\nmsg.payload = '{ \"command\" : \"/v2/apps\" , \"body\" : {\"action\": \"start\", \"names\": [\"edgexfoundry.core-metadata\"]} }'\nmsg.payload = JSON.parse(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [
+                "a659548aca3cd339"
+            ]
+        ]
+    },
+    {
+        "id": "647a94e5dce1d52a",
+        "type": "debug",
+        "z": "6f115337e98614cb",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "6660c4d141322e0c",
+        "type": "inject",
+        "z": "085a1f4e80349b48",
+        "name": "Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "9a9e8bbfbfbfd35c"
+            ]
+        ]
+    },
+    {
+        "id": "f043b4252bdbb057",
+        "type": "snapd",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "x": 970,
+        "y": 140,
+        "wires": [
+            [
+                "66e14d5b27722301"
+            ]
+        ]
+    },
+    {
+        "id": "1f67b6a70e1ddad5",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Restart Grafana",
+        "func": "msg.topic = \"snapd_rest_api_post\"\nmsg.payload = '{ \"command\" : \"/v2/apps\" , \"body\" : {\"action\": \"restart\", \"names\": [\"grafana-cs\"]} }'\nmsg.payload = JSON.parse(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 140,
+        "wires": [
+            [
+                "f043b4252bdbb057"
+            ]
+        ]
+    },
+    {
+        "id": "66e14d5b27722301",
+        "type": "debug",
+        "z": "085a1f4e80349b48",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "8b0bd95d4b72f670",
+        "type": "inject",
+        "z": "085a1f4e80349b48",
+        "name": "Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "2d0a89897ce1c895"
+            ]
+        ]
+    },
+    {
+        "id": "2d0a89897ce1c895",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "setup",
+        "func": "global.set(\"grafana_protocol\",\"http://\")\nglobal.set(\"grafana_admin\",\"admin:admin\")\nglobal.set(\"grafana_host\",\"localhost\")\nglobal.set(\"grafana_port\",\"3000\")\nflow.set(\"api_key_name\",\"mykey\")\nflow.set(\"api_key_name_id\",\"1\")\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "00c5efb789c45100"
+            ]
+        ]
+    },
+    {
+        "id": "133650d4fed7c34a",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_admin\")+\"@\"+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\n\nmsg.url = grafana_url + \"/api/auth/keys\"\nmsg.headers = {\n     \"Content-Type\" : \"application/json\"\n     }\nmsg.payload = '{\"name\": \"' + flow.get(\"api_key_name\") + '\",\"role\": \"Admin\"}'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 300,
+        "wires": [
+            [
+                "123bd28c1e47d4dd"
+            ]
+        ]
+    },
+    {
+        "id": "123bd28c1e47d4dd",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Create new API key",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 790,
+        "y": 300,
+        "wires": [
+            [
+                "e887d8271703a80d",
+                "6412da260f55a35b"
+            ]
+        ]
+    },
+    {
+        "id": "61371d834a4c277a",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_admin\")+\"@\"+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\n\nmsg.url = grafana_url + \"/api/auth/keys/\" + flow.get(\"key_id\")\nmsg.headers = {\n     \"Content-Type\" : \"application/json\"\n     }\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "0cbc6f8a514cb6ed"
+            ]
+        ]
+    },
+    {
+        "id": "0cbc6f8a514cb6ed",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Delete existing API key",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 360,
+        "y": 300,
+        "wires": [
+            [
+                "133650d4fed7c34a"
+            ]
+        ]
+    },
+    {
+        "id": "e887d8271703a80d",
+        "type": "yaml",
+        "z": "085a1f4e80349b48",
+        "property": "payload",
+        "name": "",
+        "x": 950,
+        "y": 300,
+        "wires": [
+            [
+                "1ef5410ec2251875"
+            ]
+        ]
+    },
+    {
+        "id": "00c5efb789c45100",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_admin\")+\"@\"+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\n\nmsg.url = grafana_url + \"/api/auth/keys/\" \nmsg.headers = {\n     \"Content-Type\" : \"application/json\"\n     }\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "f2a235d747e1274c"
+            ]
+        ]
+    },
+    {
+        "id": "f2a235d747e1274c",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "GET api keys",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "915cd1e1e962707f"
+            ]
+        ]
+    },
+    {
+        "id": "915cd1e1e962707f",
+        "type": "yaml",
+        "z": "085a1f4e80349b48",
+        "property": "payload",
+        "name": "",
+        "x": 810,
+        "y": 240,
+        "wires": [
+            [
+                "7b787abd3b52e281"
+            ]
+        ]
+    },
+    {
+        "id": "7b787abd3b52e281",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Select key id",
+        "func": "flow.set(\"key_id\",0)\nfor (const key of msg.payload) {\n    if ( key.name === \"mykey\" ) \n        flow.set(\"key_id\",key.id)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 240,
+        "wires": [
+            [
+                "61371d834a4c277a"
+            ]
+        ]
+    },
+    {
+        "id": "1ef5410ec2251875",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Save key",
+        "func": "global.set(\"grafana_api_key\",msg.payload.key)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 300,
+        "wires": [
+            [
+                "56a7e423e2c96a4b"
+            ]
+        ]
+    },
+    {
+        "id": "56a7e423e2c96a4b",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\n\nmsg.headers = {\n     \"Content-Type\" : \"application/json\",\n     \"Authorization\": \"Bearer \" + global.get(\"grafana_api_key\")\n     }\nmsg.url = grafana_url + \"/api/org\";\nmsg.payload = '{ \"name\": \"Canonical\" }'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 360,
+        "wires": [
+            [
+                "2a86a5409ed06a9f"
+            ]
+        ]
+    },
+    {
+        "id": "2a86a5409ed06a9f",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Update Organization",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 360,
+        "y": 360,
+        "wires": [
+            [
+                "c582fa73a3ab810d"
+            ]
+        ]
+    },
+    {
+        "id": "d2100a9ba3059c36",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\nmsg.headers = {\n     \"Content-Type\" : \"application/json\",\n     \"Authorization\": \"Bearer \" + global.get(\"grafana_api_key\")\n     }\nmsg.url = grafana_url + \"/api/dashboards/db\";\n//msg.payload = '{\"dashboard\": {\"id\": null,\"uid\": null,\"title\": \"Production Overview\",\"tags\": [ \"templated\" ],\"timezone\": \"browser\",\"schemaVersion\": 16,\"version\": 0,\"refresh\": \"25s\"}, \"folderId\": 0, \"message\": \"Made changes to xyz\", \"overwrite\": false }'\nmsg.payload = '{ \"dashboard\": ' + msg.payload +',\"folderId\": 0,\"overwrite\": true}'\n//msg.payload = '{ \"dashboard\": ' + msg.payload +'}' \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 420,
+        "wires": [
+            [
+                "5cbf4cbc9df28a05"
+            ]
+        ]
+    },
+    {
+        "id": "e13c20cfa747fef3",
+        "type": "file in",
+        "z": "085a1f4e80349b48",
+        "name": "read dashboard file",
+        "filename": "db1",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 420,
+        "wires": [
+            [
+                "d2100a9ba3059c36"
+            ]
+        ]
+    },
+    {
+        "id": "3afe413a443f2291",
+        "type": "file",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "filename": "file_out",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            [
+                "1f67b6a70e1ddad5"
+            ]
+        ]
+    },
+    {
+        "id": "8c9aee94a7fe073c",
+        "type": "file in",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "filename": "file_in",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "3afe413a443f2291"
+            ]
+        ]
+    },
+    {
+        "id": "9a9e8bbfbfbfd35c",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "compute file names",
+        "func": "var base_dir = env.get(\"SNAP_DATA\");\nmsg.file_in = base_dir + \"/grafana.ini\"\nmsg.file_out = base_dir + \"/grafana/grafana.ini\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "8c9aee94a7fe073c"
+            ]
+        ]
+    },
+    {
+        "id": "7e6e94e708019f33",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "compute file names",
+        "func": "var base_dir = env.get(\"SNAP_DATA\");\nmsg.db1 = base_dir + \"/sensortag_acc_lux_bat.json\"\nmsg.db2 = base_dir + \"/sensortag_temp_hum.json\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "e13c20cfa747fef3"
+            ]
+        ]
+    },
+    {
+        "id": "5cbf4cbc9df28a05",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Create dashboard1",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 790,
+        "y": 420,
+        "wires": [
+            [
+                "ed197710a188971c",
+                "e9ea860b308f1896"
+            ]
+        ]
+    },
+    {
+        "id": "ed197710a188971c",
+        "type": "debug",
+        "z": "085a1f4e80349b48",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c582fa73a3ab810d",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\n\nmsg.headers = {\n     \"Content-Type\" : \"application/json\",\n     \"Authorization\": \"Bearer \" + global.get(\"grafana_api_key\")\n     }\nmsg.url = grafana_url + \"/api/datasources\";\nmsg.payload = '{\"name\":\"core-data\",\"uid\":\"BmvFBg74k\",\"type\":\"marcusolsson-json-datasource\",\"url\":\"http://localhost:59880/api/v2/reading\",\"access\":\"proxy\",\"basicAuth\":false}'\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 360,
+        "wires": [
+            [
+                "fc266b9a86975bb0"
+            ]
+        ]
+    },
+    {
+        "id": "fc266b9a86975bb0",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Create EdgeX core-data data source",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 850,
+        "y": 360,
+        "wires": [
+            [
+                "7e6e94e708019f33"
+            ]
+        ]
+    },
+    {
+        "id": "6412da260f55a35b",
+        "type": "debug",
+        "z": "085a1f4e80349b48",
+        "name": "Print API key",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "3feb0e6853e52d28",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Set url and body",
+        "func": "var grafana_url = global.get(\"grafana_protocol\")+global.get(\"grafana_host\")+\":\"+global.get(\"grafana_port\")\nmsg.headers = {\n     \"Content-Type\" : \"application/json\",\n     \"Authorization\": \"Bearer \" + global.get(\"grafana_api_key\")\n     }\nmsg.url = grafana_url + \"/api/dashboards/db\";\n//msg.payload = '{\"dashboard\": {\"id\": null,\"uid\": null,\"title\": \"Production Overview\",\"tags\": [ \"templated\" ],\"timezone\": \"browser\",\"schemaVersion\": 16,\"version\": 0,\"refresh\": \"25s\"}, \"folderId\": 0, \"message\": \"Made changes to xyz\", \"overwrite\": false }'\nmsg.payload = '{ \"dashboard\": ' + msg.payload +',\"folderId\": 0,\"overwrite\": true}'\n//msg.payload = '{ \"dashboard\": ' + msg.payload +'}' \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 480,
+        "wires": [
+            [
+                "d663a3427fd7a6f9"
+            ]
+        ]
+    },
+    {
+        "id": "e9ea860b308f1896",
+        "type": "file in",
+        "z": "085a1f4e80349b48",
+        "name": "read dashboard file",
+        "filename": "db2",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "3feb0e6853e52d28"
+            ]
+        ]
+    },
+    {
+        "id": "d663a3427fd7a6f9",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "Create dashboard2",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 790,
+        "y": 480,
+        "wires": [
+            [
+                "877286b3e64b2bd6"
+            ]
+        ]
+    },
+    {
+        "id": "877286b3e64b2bd6",
+        "type": "debug",
+        "z": "085a1f4e80349b48",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 480,
+        "wires": []
     }
 ]

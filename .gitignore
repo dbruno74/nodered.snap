@@ -7,6 +7,7 @@ tmp
 .DS*
 node-red_source.tar.bz2
 node-red_2.0.6_armhf.snap
+node-red_3.0.2_arm64.snap
 build_snap.sh
 parts
 prime

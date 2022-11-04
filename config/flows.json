@@ -328,34 +328,12 @@
         "className": ""
     },
     {
-        "id": "643ab30d6d162d43",
-        "type": "ui_spacer",
-        "z": "a9aa78485087f860",
-        "name": "spacer",
-        "group": "d83db01cdc44c383",
-        "order": 6,
-        "width": "7",
-        "height": 1,
-        "className": ""
-    },
-    {
-        "id": "6ebdf18c177fc006",
-        "type": "ui_spacer",
-        "z": "a9aa78485087f860",
-        "name": "spacer",
-        "group": "d83db01cdc44c383",
-        "order": 4,
-        "width": "15",
-        "height": 1,
-        "className": ""
-    },
-    {
         "id": "a5b7700cd13ad9ad",
         "type": "ui_spacer",
         "z": "a9aa78485087f860",
         "name": "spacer",
         "group": "b6d58ead5da9d7a0",
-        "order": 6,
+        "order": 10,
         "width": "7",
         "height": 1,
         "className": ""
@@ -364,11 +342,12 @@
         "id": "3e13a5cb1097daed",
         "type": "ui_spacer",
         "z": "a9aa78485087f860",
+        "d": true,
         "name": "spacer",
         "group": "b6d58ead5da9d7a0",
-        "order": 2,
-        "width": 1,
-        "height": 1
+        "order": 3,
+        "width": "1",
+        "height": "1"
     },
     {
         "id": "41f30851e6cb7102",
@@ -380,6 +359,38 @@
         "width": "6",
         "collapse": false,
         "className": ""
+    },
+    {
+        "id": "107bea2243db3d7c",
+        "type": "ui_spacer",
+        "z": "a9aa78485087f860",
+        "d": true,
+        "name": "spacer",
+        "group": "b6d58ead5da9d7a0",
+        "order": 8,
+        "width": "15",
+        "height": "1"
+    },
+    {
+        "id": "6b0d2535eae0df21",
+        "type": "ui_group",
+        "name": "RESPONSE",
+        "tab": "44e8f608ffa1c0d1",
+        "order": 3,
+        "disp": true,
+        "width": "15",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f29d19c5fd16e2af",
+        "type": "ui_spacer",
+        "z": "a9aa78485087f860",
+        "name": "spacer",
+        "group": "6b0d2535eae0df21",
+        "order": 3,
+        "width": "7",
+        "height": "1"
     },
     {
         "id": "2f94d031281d103a",
@@ -2547,7 +2558,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1010,
+        "x": 790,
         "y": 500,
         "wires": [
             [
@@ -2606,8 +2617,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 560,
+        "x": 1000,
+        "y": 500,
         "wires": [
             [
                 "c748be29.1c57"
@@ -2706,7 +2717,7 @@
         "tbodyStyle": "width:100%;",
         "trStyle": "width:100%;",
         "tdStyle": "text-align:left;vertical-align:top;width:100%;",
-        "x": 1130,
+        "x": 1370,
         "y": 940,
         "wires": [
             [
@@ -2727,27 +2738,27 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1330,
-        "y": 880,
+        "x": 1570,
+        "y": 820,
         "wires": []
     },
     {
         "id": "8379ae0aa5ec31cd",
         "type": "ui_template",
         "z": "a9aa78485087f860",
-        "group": "d83db01cdc44c383",
+        "group": "6b0d2535eae0df21",
         "name": "Response",
-        "order": 9,
+        "order": 1,
         "width": "15",
-        "height": "10",
+        "height": "9",
         "format": "<div ng-bind-html=\"msg.payload\"></div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1320,
-        "y": 940,
+        "x": 1560,
+        "y": 980,
         "wires": [
             []
         ]
@@ -2757,11 +2768,12 @@
         "type": "snapd",
         "z": "a9aa78485087f860",
         "name": "",
-        "x": 950,
+        "x": 1190,
         "y": 940,
         "wires": [
             [
-                "53c63552ceb7d473"
+                "53c63552ceb7d473",
+                "9aadfcd46fc0f2c1"
             ]
         ]
     },
@@ -2794,8 +2806,8 @@
         "y": 1040,
         "wires": [
             [
-                "466d602ab9eb0471",
-                "18f40898ca42ea65"
+                "18f40898ca42ea65",
+                "8379ae0aa5ec31cd"
             ]
         ]
     },
@@ -2803,9 +2815,10 @@
         "id": "466d602ab9eb0471",
         "type": "ui_template",
         "z": "a9aa78485087f860",
+        "d": true,
         "group": "b6d58ead5da9d7a0",
         "name": "Response",
-        "order": 9,
+        "order": 7,
         "width": "15",
         "height": "10",
         "format": "<div ng-bind-html=\"msg.payload\"></div>",
@@ -2815,7 +2828,7 @@
         "templateScope": "local",
         "className": "",
         "x": 1560,
-        "y": 1040,
+        "y": 1060,
         "wires": [
             []
         ]
@@ -2844,20 +2857,19 @@
         "id": "4a47f154a479c838",
         "type": "function",
         "z": "a9aa78485087f860",
-        "name": "text",
-        "func": "var body    = context.get(\"body\") || 0;\n\nif(msg.topic === \"body\"){\n    data = msg.payload;\n    context.set(\"body\",data);\n    //if no output is needed while writting, stop the flow right here\n    return\n}\nif(msg.topic === \"post\"){\n    msg.topic = \"snapd_rest_api_post\";\n    msg.payload = \"{ \\\"command\\\":  \\\"\" + msg.payload + \"\\\" , \\\"body\\\":  \" + body + \"}\";\n    msg.payload = JSON.parse(msg.payload);\n}\nif(msg.topic === \"put\"){\n    msg.topic = \"snapd_rest_api_put\";\n    msg.payload = \"{ \\\"command\\\":  \\\"\" + msg.payload + \"\\\" , \\\"body\\\":  \" + body + \"}\";\n    msg.payload = JSON.parse(msg.payload);\n}\n\nreturn msg;",
+        "name": "post-put",
+        "func": "/*var body    = context.get(\"body\") || 0;\n\nif(msg.topic === \"body\"){\n    data = msg.payload;\n    context.set(\"body\",data);\n    //if no output is needed while writting, stop the flow right here\n    return\n}*/\nvar str = msg.body;\nif(msg.topic === \"post\"){\n    msg.topic = \"snapd_rest_api_post\";\n    if (msg.payload.match(/\\/v2\\/assertions[\\/]+/g)) {\n        str = str.replace(/\\n|\\r\\n|\\r/g, '\\\\n');\n        node.warn(str);\n        msg.payload = \"{ \\\"command\\\":  \\\"\" + msg.payload + \"\\\" , \\\"body\\\":  \\\"\" + str + \"\\\"}\";\n        msg.payload = JSON.parse(msg.payload);\n    }\n    else {\n        // str = str.replace(/\\n|\\r\\n|\\r/g, '\\\\n');\n        node.warn(str);\n        msg.payload = \"{ \\\"command\\\":  \\\"\" + msg.payload + \"\\\" , \\\"body\\\":  \" + str + \"}\";\n        msg.payload = JSON.parse(msg.payload);\n    }\n}\nif(msg.topic === \"put\"){\n    msg.topic = \"snapd_rest_api_put\";\n    msg.payload = \"{ \\\"command\\\":  \\\"\" + msg.payload + \"\\\" , \\\"body\\\":  \" + msg.body + \"}\";\n    msg.payload = JSON.parse(msg.payload);\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
+        "x": 800,
         "y": 1040,
         "wires": [
             [
                 "18f40898ca42ea65",
-                "4702a8ad2c53534c",
-                "969b12b1ae677c6b"
+                "4702a8ad2c53534c"
             ]
         ]
     },
@@ -2865,11 +2877,12 @@
         "id": "00e6397cec64b5d7",
         "type": "ui_text_input",
         "z": "a9aa78485087f860",
+        "d": true,
         "name": "",
         "label": "body",
         "tooltip": "",
         "group": "b6d58ead5da9d7a0",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -2877,6 +2890,7 @@
         "delay": 300,
         "topic": "body",
         "sendOnBlur": true,
+        "className": "",
         "topicType": "str",
         "x": 890,
         "y": 1120,
@@ -2925,7 +2939,7 @@
         "z": "a9aa78485087f860",
         "group": "d83db01cdc44c383",
         "name": "Autocomplete",
-        "order": 2,
+        "order": 1,
         "width": "0",
         "height": "0",
         "format": "<table>\n    <tr>\n        <td height=\"90\" width=\"220\"><md-autocomplete md-no-cache=\"true\" md-selected-item=\"selectedItem\" md-items=\"items in msg.options | filter:searchText\" md-select-on-match=\"true\"  md-search-text=\"searchText\" placeholder=\"{{msg.topic}}\" >\n        <span ng-bind=\"items\"></span></md-autocomplete></td>\n        <td><button style=\"text-align:center; height:40px;\" ng-click=\"msg.payload = searchText; send(msg)\">GET</button></td>\n    </tr>\n</table>",
@@ -2949,8 +2963,11 @@
         "z": "a9aa78485087f860",
         "name": "",
         "active": false,
-        "console": "false",
+        "tosidebar": true,
+        "console": false,
         "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 950,
         "y": 800,
         "wires": []
@@ -2989,9 +3006,6 @@
         "name": "",
         "props": [
             {
-                "p": "payload"
-            },
-            {
                 "p": "topic",
                 "vt": "str"
             }
@@ -3001,9 +3015,7 @@
         "once": true,
         "onceDelay": "1",
         "topic": "/v2/",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
+        "x": 90,
         "y": 940,
         "wires": [
             [
@@ -3018,20 +3030,21 @@
         "group": "b6d58ead5da9d7a0",
         "name": "Autocomplete",
         "order": 1,
-        "width": "7",
-        "height": "2",
-        "format": "<table>\n    <tr>\n        <td height=\"90\" width=\"220\"><md-autocomplete md-no-cache=\"true\" md-selected-item=\"selectedItem\" md-items=\"items in msg.options | filter:searchText\" md-select-on-match=\"true\"  md-search-text=\"searchText\" placeholder=\"{{msg.topic}}\" >\n        <span ng-bind=\"items\"></span></md-autocomplete></td>\n        <td><button style=\"text-align:center; height:40px;\" ng-click=\"msg.payload = searchText; send(msg)\">POST</button></td>\n    </tr>\n</table>",
+        "width": "0",
+        "height": "0",
+        "format": "<table>\n    <tr>\n        <td style=\"height: 6em;\">\n            <md-autocomplete id=\"req_uri\" style=\"width: 35em;\" md-no-cache=\"true\" md-selected-item=\"selectedItem\" md-items=\"items in msg.options | filter:searchText\" md-select-on-match=\"true\"  md-search-text=\"searchText\" placeholder=\"{{msg.topic}}\" >\n                <span ng-bind=\"items\"></span>\n            </md-autocomplete>\n        </td>\n        <td>\n                <input type=\"radio\" id=\"req_post\" name=\"req_type\" value=\"post\" checked>\n                <label for=\"req_post\">POST</label>\n                <input type=\"radio\" id=\"req_put\" name=\"req_type\" value=\"put\">\n                <label for=\"req_put\">PUT</label>\n        </td>\n        <td><button style=\"text-align:center; height:40px;\" ng-click=\"send({topic:getTopic(), payload: searchText, body: getBody()})\">SEND</button></td>\n    </tr>\n</table>\n<table>\n    <tr>\n        <td>\n            <label for=\"text\">BODY</label>\n            <br>\n            <textarea id=\"req_body\" name=\"text\" rows=\"28\" cols=\"82\"></textarea>\n          <br/>\n        </td>\n    </tr>\n</table>\n<script>\n    (function(scope) {\n        \n        scope.getTopic = function() {\n            var req_post = document.getElementById(\"req_post\").checked;\n            var req_put = document.getElementById(\"req_put\").checked;\n            \n            if (req_post)\n                return \"post\";\n            \n            if (req_put)\n                return \"put\"; \n                \n            return \"post;\"\n        }\n    \n        scope.getBody = function () {\n            var req_body = document.getElementById(\"req_body\").value;\n            return req_body;\n        }\n            \n        scope.$watch('msg', function(msg) {\n            if (msg.payload === \"clear\") {\n                var req_body = document.getElementById(\"req_body\");\n                req_body.value=\"\";\n            } \n        });\n    })(scope);\n</script>\n",
         "storeOutMessages": false,
         "fwdInMessages": false,
         "resendOnRefresh": false,
         "templateScope": "local",
         "className": "",
         "x": 520,
-        "y": 1000,
+        "y": 1040,
         "wires": [
             [
                 "04e554d255b144b6",
-                "b41db3c200058836"
+                "4a47f154a479c838",
+                "4c3812c4de24bc05"
             ]
         ]
     },
@@ -3040,9 +3053,14 @@
         "type": "debug",
         "z": "a9aa78485087f860",
         "name": "",
-        "active": false,
-        "console": "false",
-        "complete": "false",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 730,
         "y": 1120,
         "wires": []
@@ -3067,7 +3085,7 @@
         "to": "",
         "reg": false,
         "x": 320,
-        "y": 1000,
+        "y": 1040,
         "wires": [
             [
                 "d5d2fd7265711b39"
@@ -3081,9 +3099,6 @@
         "name": "",
         "props": [
             {
-                "p": "payload"
-            },
-            {
                 "p": "topic",
                 "vt": "str"
             }
@@ -3093,9 +3108,7 @@
         "once": true,
         "onceDelay": "1",
         "topic": "/v2/",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
+        "x": 90,
         "y": 1040,
         "wires": [
             [
@@ -3109,8 +3122,8 @@
         "type": "ui_button",
         "z": "a9aa78485087f860",
         "name": "",
-        "group": "d83db01cdc44c383",
-        "order": 7,
+        "group": "6b0d2535eae0df21",
+        "order": 4,
         "width": "4",
         "height": "1",
         "passthru": false,
@@ -3136,9 +3149,9 @@
         "id": "5e1f0081.6dc3c",
         "type": "ui_template",
         "z": "a9aa78485087f860",
-        "group": "d83db01cdc44c383",
+        "group": "6b0d2535eae0df21",
         "name": "window redirect",
-        "order": 8,
+        "order": 5,
         "width": 0,
         "height": 0,
         "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data == \"help\") {\n          window.open(\"https://snapcraft.io/docs/snapd-api\", \"_blank\");\n        } \n    });\n})(scope);\n</script>",
@@ -3202,7 +3215,7 @@
         "z": "a9aa78485087f860",
         "name": "",
         "group": "b6d58ead5da9d7a0",
-        "order": 7,
+        "order": 11,
         "width": "4",
         "height": "1",
         "passthru": false,
@@ -3230,7 +3243,7 @@
         "z": "a9aa78485087f860",
         "group": "b6d58ead5da9d7a0",
         "name": "window redirect",
-        "order": 8,
+        "order": 12,
         "width": 0,
         "height": 0,
         "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data == \"help\") {\n          window.open(\"https://snapcraft.io/docs/snapd-api\", \"_blank\");\n        } \n    });\n})(scope);\n</script>",
@@ -3293,36 +3306,8 @@
         "type": "ui_button",
         "z": "a9aa78485087f860",
         "name": "CLEAR",
-        "group": "d83db01cdc44c383",
-        "order": 5,
-        "width": "4",
-        "height": "1",
-        "passthru": false,
-        "label": "CLEAR",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "#4e052e",
-        "className": "",
-        "icon": "",
-        "payload": " ",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "x": 960,
-        "y": 860,
-        "wires": [
-            [
-                "53c63552ceb7d473"
-            ]
-        ]
-    },
-    {
-        "id": "0a4a7d5d54a5869b",
-        "type": "ui_button",
-        "z": "a9aa78485087f860",
-        "name": "CLEAR",
-        "group": "b6d58ead5da9d7a0",
-        "order": 5,
+        "group": "6b0d2535eae0df21",
+        "order": 2,
         "width": "4",
         "height": "1",
         "passthru": false,
@@ -3337,10 +3322,39 @@
         "topic": "",
         "topicType": "str",
         "x": 1200,
-        "y": 1120,
+        "y": 840,
         "wires": [
             [
-                "f8aa7045a3fb2000"
+                "53c63552ceb7d473"
+            ]
+        ]
+    },
+    {
+        "id": "0a4a7d5d54a5869b",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "CLEAR",
+        "group": "b6d58ead5da9d7a0",
+        "order": 9,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "CLEAR",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#4e052e",
+        "className": "",
+        "icon": "",
+        "payload": "clear",
+        "payloadType": "str",
+        "topic": "/v2/",
+        "topicType": "str",
+        "x": 340,
+        "y": 1000,
+        "wires": [
+            [
+                "d5d2fd7265711b39",
+                "04e554d255b144b6"
             ]
         ]
     },
@@ -3365,34 +3379,17 @@
         "wires": []
     },
     {
-        "id": "b41db3c200058836",
-        "type": "function",
-        "z": "a9aa78485087f860",
-        "name": "post",
-        "func": "msg.topic = \"post\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 1000,
-        "wires": [
-            [
-                "4a47f154a479c838"
-            ]
-        ]
-    },
-    {
         "id": "969b12b1ae677c6b",
         "type": "debug",
         "z": "a9aa78485087f860",
+        "d": true,
         "name": "",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 1190,
@@ -3403,9 +3400,10 @@
         "id": "3ff6d917fbac152e",
         "type": "ui_template",
         "z": "a9aa78485087f860",
+        "d": true,
         "group": "b6d58ead5da9d7a0",
         "name": "Autocomplete",
-        "order": 3,
+        "order": 4,
         "width": "7",
         "height": "2",
         "format": "<table>\n    <tr>\n        <td height=\"90\" width=\"220\"><md-autocomplete md-no-cache=\"true\" md-selected-item=\"selectedItem\" md-items=\"items in msg.options | filter:searchText\" md-select-on-match=\"true\"  md-search-text=\"searchText\" placeholder=\"{{msg.topic}}\" >\n        <span ng-bind=\"items\"></span></md-autocomplete></td>\n        <td><button style=\"text-align:center; height:40px;\" ng-click=\"msg.payload = searchText; send(msg)\">PUT</button></td>\n    </tr>\n</table>",
@@ -3427,6 +3425,7 @@
         "id": "256012d051cdc867",
         "type": "function",
         "z": "a9aa78485087f860",
+        "d": true,
         "name": "put",
         "func": "msg.topic = \"put\"\nreturn msg;",
         "outputs": 1,
@@ -3446,6 +3445,7 @@
         "id": "19f236547c100110",
         "type": "change",
         "z": "a9aa78485087f860",
+        "d": true,
         "name": "",
         "rules": [
             {
@@ -3466,6 +3466,157 @@
         "wires": [
             [
                 "3ff6d917fbac152e"
+            ]
+        ]
+    },
+    {
+        "id": "3193b6b7f5ec4f9a",
+        "type": "ui_template",
+        "z": "a9aa78485087f860",
+        "d": true,
+        "group": "b6d58ead5da9d7a0",
+        "name": "body",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "format": "      <label for=\"text\">body</label>\n      <br>\n      <textarea id=\"req_body\" name=\"text\" rows=\"28\" cols=\"82\"></textarea>\n      <br/>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 430,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e8d12d5965342af5",
+        "type": "ui_dropdown",
+        "z": "a9aa78485087f860",
+        "d": true,
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "place": "POST",
+        "group": "b6d58ead5da9d7a0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "POST",
+                "value": "post",
+                "type": "str"
+            },
+            {
+                "label": "PUT",
+                "value": "put",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 440,
+        "y": 780,
+        "wires": [
+            [
+                "a3c04dacdbfa63f5"
+            ]
+        ]
+    },
+    {
+        "id": "a3c04dacdbfa63f5",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "d": true,
+        "name": "Set rest_api_req",
+        "func": "global.set(\"rest_api_req\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c3812c4de24bc05",
+        "type": "debug",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "body",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "bdf8bbd82ec1bf2b",
+        "type": "catch",
+        "z": "a9aa78485087f860",
+        "name": "post-put error handler",
+        "scope": [
+            "4a47f154a479c838"
+        ],
+        "uncaught": false,
+        "x": 840,
+        "y": 1000,
+        "wires": [
+            [
+                "79ec8d4430d1c3dd"
+            ]
+        ]
+    },
+    {
+        "id": "7cf847f87d271b3a",
+        "type": "ui_toast",
+        "z": "a9aa78485087f860",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "show error",
+        "x": 1250,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "79ec8d4430d1c3dd",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "get error message",
+        "func": "msg.payload = msg.error.message;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 1000,
+        "wires": [
+            [
+                "7cf847f87d271b3a"
             ]
         ]
     },

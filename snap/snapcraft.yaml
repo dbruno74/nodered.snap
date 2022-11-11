@@ -110,7 +110,6 @@ parts:
     stage-packages:
     # native builds
       - on amd64 to amd64:
-         - coreutils:amd64
          - python3:amd64
          - libatomic1:amd64
          - bluetooth:all
@@ -125,7 +124,6 @@ parts:
          - libusb-1.0-0-dev:amd64
          - curl:amd64
       - on arm64 to arm64:
-         - coreutils:arm64
          - python3:arm64
          - libatomic1:arm64
          - bluetooth:all
@@ -140,7 +138,6 @@ parts:
          - libusb-1.0-0-dev:arm64
          - curl:arm64
       - on armhf to armhf:
-         - coreutils:armhf
          - python3:armhf
          - libatomic1:armhf
          - bluetooth:all
@@ -156,7 +153,6 @@ parts:
          - curl:armhf
    # cross builds
       - on amd64 to arm64:
-         - coreutils:arm64
          - python3:arm64
          - libatomic1:arm64
          - bluez:arm64
@@ -170,7 +166,6 @@ parts:
          - libusb-1.0-0-dev:arm64
          - curl:arm64
       - on amd64 to armhf:
-         - coreutils:armhf
          - python3:armhf
          - libatomic1:armhf
          - bluez:armhf

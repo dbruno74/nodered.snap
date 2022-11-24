@@ -214,8 +214,8 @@
         "tab": "057c895eb377e151",
         "order": 2,
         "disp": true,
-        "width": "6",
-        "collapse": false,
+        "width": "12",
+        "collapse": true,
         "className": ""
     },
     {
@@ -234,8 +234,8 @@
         "tab": "057c895eb377e151",
         "order": 1,
         "disp": true,
-        "width": "6",
-        "collapse": false,
+        "width": "12",
+        "collapse": true,
         "className": ""
     },
     {
@@ -245,8 +245,8 @@
         "tab": "057c895eb377e151",
         "order": 3,
         "disp": true,
-        "width": "6",
-        "collapse": false,
+        "width": "12",
+        "collapse": true,
         "className": ""
     },
     {
@@ -254,29 +254,11 @@
         "type": "ui_group",
         "name": "Software update",
         "tab": "057c895eb377e151",
-        "order": 4,
+        "order": 5,
         "disp": true,
         "width": "12",
-        "collapse": false,
+        "collapse": true,
         "className": ""
-    },
-    {
-        "id": "951f63e6.78df",
-        "type": "ui_group",
-        "name": "Garage",
-        "tab": "83822f15.889e6",
-        "order": 2,
-        "disp": false,
-        "width": "10"
-    },
-    {
-        "id": "83822f15.889e6",
-        "type": "ui_tab",
-        "name": "Garage",
-        "icon": "fa-car",
-        "order": 2,
-        "disabled": false,
-        "hidden": true
     },
     {
         "id": "c519da4c.f6bf9",
@@ -293,7 +275,9 @@
         "type": "ui_tab",
         "name": "Home",
         "icon": "dashboard",
-        "order": 6
+        "order": 6,
+        "disabled": false,
+        "hidden": true
     },
     {
         "id": "44e8f608ffa1c0d1",
@@ -393,6 +377,17 @@
         "height": "1"
     },
     {
+        "id": "07de419d1e087d6d",
+        "type": "ui_group",
+        "name": "Services",
+        "tab": "057c895eb377e151",
+        "order": 4,
+        "disp": true,
+        "width": "12",
+        "collapse": true,
+        "className": ""
+    },
+    {
         "id": "2f94d031281d103a",
         "type": "sensorTag",
         "z": "ea5d4dd247fe2c99",
@@ -410,7 +405,7 @@
         "luxometer": true,
         "battery": true,
         "x": 550,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "351f04c959ed7a95",
@@ -433,8 +428,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1150,
-        "y": 140,
+        "x": 1130,
+        "y": 200,
         "wires": []
     },
     {
@@ -1371,7 +1366,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "filter data",
-        "func": "if (msg.payload.status == 'connected') {\n    msg.payload = 'connected';\n    return msg;\n}else {\n    if (msg.payload.status == 'connecting') {\n        msg.payload = 'connecting';\n        return msg;\n    }else {\n        if (msg.payload.status == 'disconnected') {\n            msg.payload = 'disconnected'; \n            return msg;\n        } else {\n            if (msg.payload.status == 'discovering') {\n                msg.payload = 'discovering';\n                return msg;\n            }\n        }\n    }  \n}",
+        "func": "if (flow.get(\"ble_sw\") === 1) {\n    if (msg.payload.status == 'connected') {\n        msg.payload = 'connected';\n        return msg;\n    }else {\n        if (msg.payload.status == 'connecting') {\n            msg.payload = 'connecting';\n            return msg;\n        }else {\n            if (msg.payload.status == 'disconnected') {\n                msg.payload = 'disconnected'; \n                return msg;\n            } else {\n                if (msg.payload.status == 'discovering') {\n                    msg.payload = 'discovering';\n                    return msg;\n                }\n            }\n        }  \n    }\n} else {\n    msg.payload = 'off';\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1611,7 +1606,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "Prepare url",
-        "func": "msg.url = \"http://localhost:1880/\" + \"ping_edgex_core_metadata\"\nreturn msg;",
+        "func": "msg.url = \"http://localhost:7880/\" + \"ping_edgex_core_metadata\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1681,7 +1676,7 @@
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "Prepare url",
-        "func": "msg.url = \"http://localhost:1880/\" + \"ping_edgex_core_data\"\nreturn msg;",
+        "func": "msg.url = \"http://localhost:7880/\" + \"ping_edgex_core_data\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1832,7 +1827,7 @@
         "shape": "circle",
         "showGlow": true,
         "name": "BLE Status",
-        "x": 1150,
+        "x": 3930,
         "y": 40,
         "wires": []
     },
@@ -1970,6 +1965,7 @@
         "id": "86813e80ade3aad6",
         "type": "ui_button",
         "z": "ea5d4dd247fe2c99",
+        "d": true,
         "name": "Open Grafana dashboard 1",
         "group": "41f30851e6cb7102",
         "order": 7,
@@ -1998,12 +1994,13 @@
         "id": "4f7526c75666b5a4",
         "type": "ui_template",
         "z": "ea5d4dd247fe2c99",
+        "d": true,
         "group": "41f30851e6cb7102",
         "name": "window redirect",
         "order": 8,
         "width": 0,
         "height": 0,
-        "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data == \"db1\") {\n          window.open(\"http://\" + window.location.hostname + \":3000/d/TyoT6kigj\", \"_blank\");\n        } \n        if (data == \"db2\") {\n          window.open(\"http://\" + window.location.hostname + \":3000/d/TyoT6kigh\", \"_blank\");\n        }\n    });\n})(scope);\n</script>",
+        "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data == \"db1\") {\n          window.open(\"http://\" + window.location.hostname + \":7000/d/TyoT6kigj\", \"_blank\");\n        } \n        if (data == \"db2\") {\n          window.open(\"http://\" + window.location.hostname + \":7000/d/TyoT6kigh\", \"_blank\");\n        }\n    });\n})(scope);\n</script>",
         "storeOutMessages": false,
         "fwdInMessages": true,
         "resendOnRefresh": false,
@@ -2021,6 +2018,7 @@
         "id": "1b7fce9a96e9652e",
         "type": "trigger",
         "z": "ea5d4dd247fe2c99",
+        "d": true,
         "name": "reset msg",
         "op1": "",
         "op2": "empty",
@@ -2046,6 +2044,7 @@
         "id": "71f2ad0d3f19c58e",
         "type": "debug",
         "z": "ea5d4dd247fe2c99",
+        "d": true,
         "name": "",
         "active": false,
         "tosidebar": true,
@@ -2063,6 +2062,7 @@
         "id": "1a99954e8adb443c",
         "type": "ui_button",
         "z": "ea5d4dd247fe2c99",
+        "d": true,
         "name": "Open Grafana dashboard 2",
         "group": "41f30851e6cb7102",
         "order": 7,
@@ -2088,7 +2088,280 @@
         ]
     },
     {
-        "id": "2f46a1218fd245cd",
+        "id": "71bd6044.791278",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "41f30851e6cb7102",
+        "name": "Grafana Dashboard 1",
+        "order": 0,
+        "width": "3",
+        "height": "2",
+        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_1\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"https://upload.wikimedia.org/wikipedia/en/a/a1/Grafana_logo.svg\"/>\n    <span>dashboard 1</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_1').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigj\";\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 760,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "62c2972d66492701",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "41f30851e6cb7102",
+        "name": "Grafana Dashboard 2",
+        "order": 0,
+        "width": "3",
+        "height": "2",
+        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_2\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"https://upload.wikimedia.org/wikipedia/en/a/a1/Grafana_logo.svg\"/>\n    <span>dashboard 2</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_2').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigh\";\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 760,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8d11e876908a7b00",
+        "type": "exec",
+        "z": "ea5d4dd247fe2c99",
+        "command": "busctl set-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered b 0",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3330,
+        "y": 160,
+        "wires": [
+            [],
+            [
+                "9bc18a6d5d984a46"
+            ],
+            [
+                "5915075563d71c0a",
+                "7e935cda925f561b"
+            ]
+        ]
+    },
+    {
+        "id": "3d856e1542d71432",
+        "type": "exec",
+        "z": "ea5d4dd247fe2c99",
+        "command": "busctl set-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered b 1",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3330,
+        "y": 280,
+        "wires": [
+            [],
+            [
+                "c66877c849f65ffd"
+            ],
+            [
+                "74fdf9154ef7775c",
+                "7e935cda925f561b"
+            ]
+        ]
+    },
+    {
+        "id": "ab9e3e20a3b38e1d",
+        "type": "ui_switch",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "label": "BLE Switch",
+        "tooltip": "",
+        "group": "41f30851e6cb7102",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 2610,
+        "y": 220,
+        "wires": [
+            [
+                "78cced6b236a4f59"
+            ]
+        ]
+    },
+    {
+        "id": "6434639d62ea72d8",
+        "type": "switch",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2970,
+        "y": 220,
+        "wires": [
+            [
+                "8d11e876908a7b00"
+            ],
+            [
+                "3d856e1542d71432"
+            ]
+        ]
+    },
+    {
+        "id": "9bc18a6d5d984a46",
+        "type": "ui_toast",
+        "z": "ea5d4dd247fe2c99",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "show error",
+        "x": 3930,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c66877c849f65ffd",
+        "type": "ui_toast",
+        "z": "ea5d4dd247fe2c99",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "show error",
+        "x": 3930,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "74fdf9154ef7775c",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set discovering",
+        "func": "if (msg.payload.code == 0) {\n    msg.payload = 'discovering';\n    flow.set(\"ble_sw\",1)\n    return msg;\n} else \n    flow.set(\"ble_sw\",0)",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3740,
+        "y": 220,
+        "wires": [
+            [
+                "6c1b111ba3323868"
+            ]
+        ]
+    },
+    {
+        "id": "ede17a878e962bc1",
+        "type": "exec",
+        "z": "ea5d4dd247fe2c99",
+        "command": "busctl get-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1760,
+        "y": 280,
+        "wires": [
+            [
+                "a1bc81ec8d640c55"
+            ],
+            [],
+            [
+                "7e935cda925f561b"
+            ]
+        ]
+    },
+    {
+        "id": "a1bc81ec8d640c55",
+        "type": "switch",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "b true",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "b false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2130,
+        "y": 220,
+        "wires": [
+            [
+                "cf9260100088606a"
+            ],
+            [
+                "a456e64bdde56df1"
+            ]
+        ]
+    },
+    {
+        "id": "9d086ad33e1e2703",
         "type": "inject",
         "z": "ea5d4dd247fe2c99",
         "name": "",
@@ -2103,34 +2376,305 @@
         ],
         "repeat": "",
         "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
+        "once": true,
+        "onceDelay": "0.1",
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1300,
-        "y": 820,
+        "x": 1410,
+        "y": 100,
         "wires": [
             [
-                "9dd5c1ceb1948956"
+                "0208f60fe01aca28"
             ]
         ]
     },
     {
-        "id": "9dd5c1ceb1948956",
-        "type": "debug",
+        "id": "cf9260100088606a",
+        "type": "function",
         "z": "ea5d4dd247fe2c99",
-        "name": "debug 10",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1480,
-        "y": 820,
-        "wires": []
+        "name": "set payload for BLE switch",
+        "func": "msg.payload=1\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2380,
+        "y": 200,
+        "wires": [
+            [
+                "ab9e3e20a3b38e1d"
+            ]
+        ]
+    },
+    {
+        "id": "7e935cda925f561b",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set payload for BLE switch",
+        "func": "if (msg.payload.code != 0) {\n    msg.payload=0\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2380,
+        "y": 360,
+        "wires": [
+            [
+                "ab9e3e20a3b38e1d"
+            ]
+        ]
+    },
+    {
+        "id": "78cced6b236a4f59",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set BLE switch status",
+        "func": "if ( flow.get(\"ble_sw\") != msg.payload ) {\n    flow.set(\"ble_sw\",msg.payload)\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2800,
+        "y": 220,
+        "wires": [
+            [
+                "6434639d62ea72d8"
+            ]
+        ]
+    },
+    {
+        "id": "688aa57cb981d199",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set BLE switch status",
+        "func": "flow.set(\"ble_sw\",1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90aa2a1f43e7999e",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1410,
+        "y": 200,
+        "wires": [
+            [
+                "ede17a878e962bc1"
+            ]
+        ]
+    },
+    {
+        "id": "5915075563d71c0a",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set status",
+        "func": "if (msg.payload.code == 0) {\n    msg.payload = 'off';\n    flow.set(\"ble_sw\",0)\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3680,
+        "y": 120,
+        "wires": [
+            [
+                "67b2ba20d4cd12c6"
+            ]
+        ]
+    },
+    {
+        "id": "a456e64bdde56df1",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set payload for BLE switch",
+        "func": "msg.payload=0\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2380,
+        "y": 240,
+        "wires": [
+            [
+                "ab9e3e20a3b38e1d"
+            ]
+        ]
+    },
+    {
+        "id": "0208f60fe01aca28",
+        "type": "exec",
+        "z": "ea5d4dd247fe2c99",
+        "command": "busctl get-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1780,
+        "y": 100,
+        "wires": [
+            [
+                "fa3c77ebdef2049c"
+            ],
+            [],
+            [
+                "e404fcee685007fc"
+            ]
+        ]
+    },
+    {
+        "id": "fa3c77ebdef2049c",
+        "type": "switch",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "b true",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "b false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2130,
+        "y": 100,
+        "wires": [
+            [
+                "688aa57cb981d199"
+            ],
+            [
+                "331c7310e053d277"
+            ]
+        ]
+    },
+    {
+        "id": "331c7310e053d277",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set BLE switch status",
+        "func": "flow.set(\"ble_sw\",0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e404fcee685007fc",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "set BLE switch status",
+        "func": "if (msg.payload.code != 0) \n    flow.set(\"ble_sw\",0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "67b2ba20d4cd12c6",
+        "type": "controltimer",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "timerType": "delay",
+        "timerDurationUnit": "second",
+        "timerDurationType": "num",
+        "timerDuration": 1,
+        "timerLoopTimeoutUnit": "second",
+        "timerLoopTimeoutType": "num",
+        "timerLoopTimeout": 0,
+        "loopTimeoutMessageType": "str",
+        "loopTimeoutMessage": "LOOP_TIMEOUT",
+        "timerMaxLoopIterationsType": "num",
+        "timerMaxLoopIterations": 0,
+        "loopMaxIterationsMessageType": "str",
+        "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
+        "isConsecutiveStartActionTimerResetAllowed": false,
+        "isRunningTimerProgressVisible": false,
+        "outputReceivedMessageOnTimerTrigger": false,
+        "outputReceivedMessageOnTimerHalt": true,
+        "startTimerOnReceivalOfUnknownMessage": true,
+        "resetTimerOnReceivalOfUnknownMessage": true,
+        "isDebugModeEnabled": false,
+        "timerTriggeredMessageType": "str",
+        "timerTriggeredMessage": "TIMER_TRIGGERED",
+        "timerHaltedMessageType": "str",
+        "timerHaltedMessage": "TIMER_HALTED",
+        "isStartActionEnabled": true,
+        "isStopActionEnabled": true,
+        "isResetActionEnabled": true,
+        "isPauseActionEnabled": true,
+        "isContinueActionEnabled": true,
+        "actionPropertyNameType": "str",
+        "actionPropertyName": "payload",
+        "startActionNameType": "str",
+        "startActionName": "START",
+        "stopActionNameType": "str",
+        "stopActionName": "STOP",
+        "resetActionNameType": "str",
+        "resetActionName": "RESET",
+        "pauseActionNameType": "str",
+        "pauseActionName": "PAUSE",
+        "continueActionNameType": "str",
+        "continueActionName": "CONTINUE",
+        "x": 3800,
+        "y": 80,
+        "wires": [
+            [
+                "6c1b111ba3323868"
+            ],
+            []
+        ]
     },
     {
         "id": "7fa903afbafef497",
@@ -2159,7 +2703,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 550,
-        "y": 80,
+        "y": 60,
         "wires": []
     },
     {
@@ -2169,8 +2713,8 @@
         "group": "30e1f2e7e2964dac",
         "name": "App List",
         "order": 0,
-        "width": 0,
-        "height": 0,
+        "width": "12",
+        "height": "12",
         "columns": [],
         "outputs": 0,
         "cts": false,
@@ -2207,7 +2751,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "send",
+        "label": "update",
         "tooltip": "",
         "color": "",
         "bgcolor": "#4e052e",
@@ -2218,7 +2762,7 @@
         "topic": "snapd_rest_api_get",
         "topicType": "str",
         "x": 160,
-        "y": 140,
+        "y": 120,
         "wires": [
             [
                 "7fa903afbafef497"
@@ -2235,7 +2779,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "send",
+        "label": "update",
         "tooltip": "",
         "color": "",
         "bgcolor": "#4e052e",
@@ -2259,7 +2803,7 @@
         "z": "a9aa78485087f860",
         "name": "",
         "x": 350,
-        "y": 200,
+        "y": 220,
         "wires": [
             [
                 "42eea502addb9dcf",
@@ -2279,7 +2823,7 @@
         "finalize": "",
         "libs": [],
         "x": 560,
-        "y": 200,
+        "y": 220,
         "wires": [
             [
                 "37016def337b7930"
@@ -2292,7 +2836,7 @@
         "z": "a9aa78485087f860",
         "group": "109afbd0c85d153d",
         "order": 1,
-        "width": "6",
+        "width": "12",
         "height": "6",
         "name": "",
         "label": "",
@@ -2300,7 +2844,7 @@
         "layout": "row-left",
         "className": "",
         "x": 730,
-        "y": 200,
+        "y": 220,
         "wires": []
     },
     {
@@ -2313,7 +2857,7 @@
         "width": 0,
         "height": 0,
         "passthru": false,
-        "label": "send",
+        "label": "update",
         "tooltip": "",
         "color": "",
         "bgcolor": "#4e052e",
@@ -2324,7 +2868,7 @@
         "topic": "snapd_rest_api_get",
         "topicType": "str",
         "x": 190,
-        "y": 260,
+        "y": 300,
         "wires": [
             [
                 "aa05f63e277d5420"
@@ -2337,7 +2881,7 @@
         "z": "a9aa78485087f860",
         "name": "",
         "x": 350,
-        "y": 260,
+        "y": 300,
         "wires": [
             [
                 "e1a1995c875abb75",
@@ -2358,7 +2902,7 @@
         "outputs": 0,
         "cts": false,
         "x": 780,
-        "y": 260,
+        "y": 300,
         "wires": []
     },
     {
@@ -2373,7 +2917,7 @@
         "finalize": "",
         "libs": [],
         "x": 560,
-        "y": 260,
+        "y": 300,
         "wires": [
             [
                 "bec6b40bf35b4374"
@@ -2384,7 +2928,7 @@
         "id": "f1772b8e7cddb8de",
         "type": "ui_media",
         "z": "a9aa78485087f860",
-        "group": "951f63e6.78df",
+        "group": "c519da4c.f6bf9",
         "name": "",
         "width": 0,
         "height": 0,
@@ -2395,6 +2939,7 @@
         "showcontrols": true,
         "loop": true,
         "onstart": false,
+        "muted": false,
         "scope": "local",
         "tooltip": "",
         "x": 1070,
@@ -2427,8 +2972,7 @@
         "y": 440,
         "wires": [
             [
-                "9e5934ac55764282",
-                "435bb1338bda914e"
+                "9e5934ac55764282"
             ]
         ]
     },
@@ -2441,8 +2985,7 @@
         "y": 440,
         "wires": [
             [
-                "f535505e46af34cc",
-                "435bb1338bda914e"
+                "f535505e46af34cc"
             ]
         ]
     },
@@ -2504,8 +3047,7 @@
         "y": 500,
         "wires": [
             [
-                "7ead1dc122b3e438",
-                "435bb1338bda914e"
+                "7ead1dc122b3e438"
             ]
         ]
     },
@@ -2578,7 +3120,7 @@
         "template": "<table border=\"1\">\n    \n    \n    <thead>\n        <tr>\n            <th colspan=\"3\">{{topic}}</th>\n        </tr>\n    </thead>\n    \n    \n    <tr>\n        <th>Message</th>\n        <th>Time & Date</th>\n\n    </tr>\n    {{#payload}}\n        <tr class=\"\">\n            <td>{{msg}}</td>            \n            <td>{{timedate}}</td>\n        </tr>\n    {{/payload}}\n</table>\n",
         "output": "str",
         "x": 1530,
-        "y": 560,
+        "y": 500,
         "wires": [
             [
                 "3e0498a5.b8f04"
@@ -2592,15 +3134,15 @@
         "group": "ce67eef9da4c05b2",
         "name": "Scrolling Messages",
         "order": 3,
-        "width": 0,
-        "height": 0,
+        "width": "12",
+        "height": "6",
         "format": "<div ng-bind-html=\"msg.payload\" height=\"500\" style=\"height: 350px;\"></div>",
         "storeOutMessages": false,
         "fwdInMessages": false,
         "resendOnRefresh": false,
         "templateScope": "local",
         "className": "",
-        "x": 1630,
+        "x": 1710,
         "y": 500,
         "wires": [
             []
@@ -2636,8 +3178,8 @@
         "initialize": "// Code added here will be run once\n// whenever the node is started.\nvar cfg = undefined ;\nflow.set('msg_events', cfg, 'memoryOnly');\n\n//return msg;",
         "finalize": "",
         "libs": [],
-        "x": 1160,
-        "y": 240,
+        "x": 1020,
+        "y": 440,
         "wires": [
             []
         ]
@@ -2684,26 +3226,9 @@
         "y": 500,
         "wires": [
             [
-                "e2cfb5dc.3a532",
                 "7311ad45.6cf814"
             ]
         ]
-    },
-    {
-        "id": "e2cfb5dc.3a532",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1610,
-        "y": 640,
-        "wires": []
     },
     {
         "id": "53c63552ceb7d473",
@@ -2718,29 +3243,12 @@
         "trStyle": "width:100%;",
         "tdStyle": "text-align:left;vertical-align:top;width:100%;",
         "x": 1370,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
-                "9aadfcd46fc0f2c1",
                 "8379ae0aa5ec31cd"
             ]
         ]
-    },
-    {
-        "id": "9aadfcd46fc0f2c1",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1570,
-        "y": 820,
-        "wires": []
     },
     {
         "id": "8379ae0aa5ec31cd",
@@ -2758,7 +3266,7 @@
         "templateScope": "local",
         "className": "",
         "x": 1560,
-        "y": 980,
+        "y": 1180,
         "wires": [
             []
         ]
@@ -2769,11 +3277,10 @@
         "z": "a9aa78485087f860",
         "name": "",
         "x": 1190,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
-                "53c63552ceb7d473",
-                "9aadfcd46fc0f2c1"
+                "53c63552ceb7d473"
             ]
         ]
     },
@@ -2783,7 +3290,7 @@
         "z": "a9aa78485087f860",
         "name": "",
         "x": 1190,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
                 "f8aa7045a3fb2000"
@@ -2803,34 +3310,11 @@
         "trStyle": "width:100%;",
         "tdStyle": "text-align:left;vertical-align:top;width:100%;",
         "x": 1370,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
-                "18f40898ca42ea65",
                 "8379ae0aa5ec31cd"
             ]
-        ]
-    },
-    {
-        "id": "466d602ab9eb0471",
-        "type": "ui_template",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "group": "b6d58ead5da9d7a0",
-        "name": "Response",
-        "order": 7,
-        "width": "15",
-        "height": "10",
-        "format": "<div ng-bind-html=\"msg.payload\"></div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 1560,
-        "y": 1060,
-        "wires": [
-            []
         ]
     },
     {
@@ -2845,10 +3329,9 @@
         "finalize": "",
         "libs": [],
         "x": 790,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
-                "c759cbbe.82b1a8",
                 "dc24df6ac0346c8b"
             ]
         ]
@@ -2865,73 +3348,12 @@
         "finalize": "",
         "libs": [],
         "x": 800,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
-                "18f40898ca42ea65",
                 "4702a8ad2c53534c"
             ]
         ]
-    },
-    {
-        "id": "00e6397cec64b5d7",
-        "type": "ui_text_input",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "",
-        "label": "body",
-        "tooltip": "",
-        "group": "b6d58ead5da9d7a0",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "body",
-        "sendOnBlur": true,
-        "className": "",
-        "topicType": "str",
-        "x": 890,
-        "y": 1120,
-        "wires": [
-            [
-                "4a47f154a479c838",
-                "969b12b1ae677c6b"
-            ]
-        ]
-    },
-    {
-        "id": "435bb1338bda914e",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 530,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "18f40898ca42ea65",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1550,
-        "y": 1160,
-        "wires": []
     },
     {
         "id": "1fb84b3f.99a1f5",
@@ -2949,28 +3371,12 @@
         "templateScope": "local",
         "className": "",
         "x": 520,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
-                "a99713dda4bf908d",
-                "c759cbbe.82b1a8"
+                "a99713dda4bf908d"
             ]
         ]
-    },
-    {
-        "id": "c759cbbe.82b1a8",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 950,
-        "y": 800,
-        "wires": []
     },
     {
         "id": "3b725772.4a6ae8",
@@ -2992,7 +3398,7 @@
         "to": "",
         "reg": false,
         "x": 320,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
                 "1fb84b3f.99a1f5"
@@ -3016,7 +3422,7 @@
         "onceDelay": "1",
         "topic": "/v2/",
         "x": 90,
-        "y": 940,
+        "y": 1140,
         "wires": [
             [
                 "3b725772.4a6ae8"
@@ -3039,31 +3445,12 @@
         "templateScope": "local",
         "className": "",
         "x": 520,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
-                "04e554d255b144b6",
-                "4a47f154a479c838",
-                "4c3812c4de24bc05"
+                "4a47f154a479c838"
             ]
         ]
-    },
-    {
-        "id": "04e554d255b144b6",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 730,
-        "y": 1120,
-        "wires": []
     },
     {
         "id": "861774663f3ca208",
@@ -3085,7 +3472,7 @@
         "to": "",
         "reg": false,
         "x": 320,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
                 "d5d2fd7265711b39"
@@ -3109,11 +3496,10 @@
         "onceDelay": "1",
         "topic": "/v2/",
         "x": 90,
-        "y": 1040,
+        "y": 1240,
         "wires": [
             [
-                "861774663f3ca208",
-                "19f236547c100110"
+                "861774663f3ca208"
             ]
         ]
     },
@@ -3138,7 +3524,7 @@
         "topic": "",
         "topicType": "str",
         "x": 110,
-        "y": 1200,
+        "y": 1400,
         "wires": [
             [
                 "ece06122.7e762"
@@ -3161,7 +3547,7 @@
         "templateScope": "local",
         "className": "",
         "x": 480,
-        "y": 1200,
+        "y": 1400,
         "wires": [
             [
                 "8582289.2d757d8"
@@ -3186,7 +3572,7 @@
         "topic": "topic",
         "outputs": 1,
         "x": 300,
-        "y": 1200,
+        "y": 1400,
         "wires": [
             [
                 "5e1f0081.6dc3c"
@@ -3206,7 +3592,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 670,
-        "y": 1200,
+        "y": 1400,
         "wires": []
     },
     {
@@ -3230,7 +3616,7 @@
         "topic": "",
         "topicType": "str",
         "x": 110,
-        "y": 1260,
+        "y": 1460,
         "wires": [
             [
                 "9aad3753bea9ccfd"
@@ -3253,7 +3639,7 @@
         "templateScope": "local",
         "className": "",
         "x": 480,
-        "y": 1260,
+        "y": 1460,
         "wires": [
             [
                 "9c86f324704184cd"
@@ -3278,7 +3664,7 @@
         "topic": "topic",
         "outputs": 1,
         "x": 300,
-        "y": 1260,
+        "y": 1460,
         "wires": [
             [
                 "b6f029f62837f700"
@@ -3298,7 +3684,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 670,
-        "y": 1260,
+        "y": 1460,
         "wires": []
     },
     {
@@ -3322,7 +3708,7 @@
         "topic": "",
         "topicType": "str",
         "x": 1200,
-        "y": 840,
+        "y": 1040,
         "wires": [
             [
                 "53c63552ceb7d473"
@@ -3350,11 +3736,10 @@
         "topic": "/v2/",
         "topicType": "str",
         "x": 340,
-        "y": 1000,
+        "y": 1200,
         "wires": [
             [
-                "d5d2fd7265711b39",
-                "04e554d255b144b6"
+                "d5d2fd7265711b39"
             ]
         ]
     },
@@ -3365,7 +3750,7 @@
         "name": "REST API",
         "info": "",
         "x": 80,
-        "y": 760,
+        "y": 1000,
         "wires": []
     },
     {
@@ -3379,193 +3764,6 @@
         "wires": []
     },
     {
-        "id": "969b12b1ae677c6b",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1190,
-        "y": 1180,
-        "wires": []
-    },
-    {
-        "id": "3ff6d917fbac152e",
-        "type": "ui_template",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "group": "b6d58ead5da9d7a0",
-        "name": "Autocomplete",
-        "order": 4,
-        "width": "7",
-        "height": "2",
-        "format": "<table>\n    <tr>\n        <td height=\"90\" width=\"220\"><md-autocomplete md-no-cache=\"true\" md-selected-item=\"selectedItem\" md-items=\"items in msg.options | filter:searchText\" md-select-on-match=\"true\"  md-search-text=\"searchText\" placeholder=\"{{msg.topic}}\" >\n        <span ng-bind=\"items\"></span></md-autocomplete></td>\n        <td><button style=\"text-align:center; height:40px;\" ng-click=\"msg.payload = searchText; send(msg)\">PUT</button></td>\n    </tr>\n</table>",
-        "storeOutMessages": false,
-        "fwdInMessages": false,
-        "resendOnRefresh": false,
-        "templateScope": "local",
-        "className": "",
-        "x": 520,
-        "y": 1080,
-        "wires": [
-            [
-                "04e554d255b144b6",
-                "256012d051cdc867"
-            ]
-        ]
-    },
-    {
-        "id": "256012d051cdc867",
-        "type": "function",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "put",
-        "func": "msg.topic = \"put\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 1080,
-        "wires": [
-            [
-                "4a47f154a479c838"
-            ]
-        ]
-    },
-    {
-        "id": "19f236547c100110",
-        "type": "change",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "options",
-                "pt": "msg",
-                "to": "[\"/v2/snaps\"]",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 320,
-        "y": 1080,
-        "wires": [
-            [
-                "3ff6d917fbac152e"
-            ]
-        ]
-    },
-    {
-        "id": "3193b6b7f5ec4f9a",
-        "type": "ui_template",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "group": "b6d58ead5da9d7a0",
-        "name": "body",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "format": "      <label for=\"text\">body</label>\n      <br>\n      <textarea id=\"req_body\" name=\"text\" rows=\"28\" cols=\"82\"></textarea>\n      <br/>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 430,
-        "y": 820,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e8d12d5965342af5",
-        "type": "ui_dropdown",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "",
-        "label": "",
-        "tooltip": "",
-        "place": "POST",
-        "group": "b6d58ead5da9d7a0",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {
-                "label": "POST",
-                "value": "post",
-                "type": "str"
-            },
-            {
-                "label": "PUT",
-                "value": "put",
-                "type": "str"
-            }
-        ],
-        "payload": "",
-        "topic": "topic",
-        "topicType": "msg",
-        "className": "",
-        "x": 440,
-        "y": 780,
-        "wires": [
-            [
-                "a3c04dacdbfa63f5"
-            ]
-        ]
-    },
-    {
-        "id": "a3c04dacdbfa63f5",
-        "type": "function",
-        "z": "a9aa78485087f860",
-        "d": true,
-        "name": "Set rest_api_req",
-        "func": "global.set(\"rest_api_req\",msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 780,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "4c3812c4de24bc05",
-        "type": "debug",
-        "z": "a9aa78485087f860",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "body",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 720,
-        "y": 1160,
-        "wires": []
-    },
-    {
         "id": "bdf8bbd82ec1bf2b",
         "type": "catch",
         "z": "a9aa78485087f860",
@@ -3575,7 +3773,7 @@
         ],
         "uncaught": false,
         "x": 840,
-        "y": 1000,
+        "y": 1200,
         "wires": [
             [
                 "79ec8d4430d1c3dd"
@@ -3598,7 +3796,7 @@
         "topic": "",
         "name": "show error",
         "x": 1250,
-        "y": 1000,
+        "y": 1200,
         "wires": []
     },
     {
@@ -3613,10 +3811,773 @@
         "finalize": "",
         "libs": [],
         "x": 1070,
-        "y": 1000,
+        "y": 1200,
         "wires": [
             [
                 "7cf847f87d271b3a"
+            ]
+        ]
+    },
+    {
+        "id": "37cb42114fddcd53",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "refresh services",
+        "group": "07de419d1e087d6d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "refresh services",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#4e052e",
+        "className": "",
+        "icon": "",
+        "payload": "/v2/snaps",
+        "payloadType": "str",
+        "topic": "snapd_rest_api_get",
+        "topicType": "str",
+        "x": 180,
+        "y": 580,
+        "wires": [
+            [
+                "d15097d27da2f554"
+            ]
+        ]
+    },
+    {
+        "id": "11c4a58d07257520",
+        "type": "snapd",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "x": 650,
+        "y": 620,
+        "wires": [
+            [
+                "5d2ee77f.a8fe38"
+            ]
+        ]
+    },
+    {
+        "id": "3a0681c1891c9310",
+        "type": "ui_table",
+        "z": "a9aa78485087f860",
+        "group": "07de419d1e087d6d",
+        "name": "App List",
+        "order": 3,
+        "width": "12",
+        "height": "6",
+        "columns": [
+            {
+                "field": "snap",
+                "title": "snap",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "name",
+                "title": "service name",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "active",
+                "title": "active",
+                "width": "",
+                "align": "left",
+                "formatter": "tickCross",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "enabled",
+                "title": "enabled",
+                "width": "",
+                "align": "left",
+                "formatter": "tickCross",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 1980,
+        "y": 580,
+        "wires": [
+            [
+                "827cdc2b09835474"
+            ]
+        ]
+    },
+    {
+        "id": "2e20d61f.4aa97a",
+        "type": "ui_dropdown",
+        "z": "a9aa78485087f860",
+        "name": "Snap name",
+        "label": "Snap name",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "07de419d1e087d6d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 1030,
+        "y": 580,
+        "wires": [
+            [
+                "22c3dcb3e21375d5",
+                "2ce4d8e3772ba000"
+            ]
+        ]
+    },
+    {
+        "id": "5d2ee77f.a8fe38",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "prepare dropdown",
+        "func": "// reorder\nmsg.payload.result.sort(function (a,b) {\n    if (a.name < b.name) {\n        return -1\n    }\n    else if (a.name > b.name) {\n        return 1;\n    }\n    return 0;\n})\n\nvar options_str = ''\n\nfor (var key in msg.payload.result) {\n    var isDaemon = false;\n    for (var app_key in msg.payload.result[key].apps ) {\n        if ( msg.payload.result[key].apps[app_key].hasOwnProperty(\"daemon\") )\n            isDaemon = true;\n    }\n    if (isDaemon) {\n        snap_name = msg.payload.result[key].name;\n        //options_str = options_str + ' {\"'  + snap_name +'\":{ \"param\":' +  '\"' + snap_name + '\", \"data\":' +  '\"' + snap_name + '\"}},'\n        options_str = options_str + '\"' + snap_name + '\",'\n    }\n}\n\noptions_str = '[' + options_str.replace(/.$/,'') + ']'\n\nvar options = JSON.parse(options_str)\n\nmsg.options = options\n\nif (( flow.get(\"snap_name\") != null) && (flow.get(\"snap_name\") != \"\" ))\n    msg.payload = [flow.get(\"snap_name\")]\n    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 620,
+        "wires": [
+            [
+                "2e20d61f.4aa97a",
+                "976434b20173798f"
+            ]
+        ]
+    },
+    {
+        "id": "22c3dcb3e21375d5",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "prepare for services",
+        "func": "flow.set(\"snap_name\",msg.payload)\nflow.set(\"service_name\", \"\")\nflow.set(\"service_name_short\", \"\")\nmsg.payload=\"/v2/apps?select=service&names=\" + msg.payload\nmsg.topic=\"snapd_rest_api_get\"\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 620,
+        "wires": [
+            [
+                "d667bd65535ef273"
+            ]
+        ]
+    },
+    {
+        "id": "d667bd65535ef273",
+        "type": "snapd",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "x": 1530,
+        "y": 640,
+        "wires": [
+            [
+                "b635b597cb4f40f3"
+            ]
+        ]
+    },
+    {
+        "id": "b635b597cb4f40f3",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "patch results",
+        "func": "var result = msg.payload.result\n\nif ( msg.payload.result[0].snap != flow.get(\"snap_name\")){\n    for (var key in msg.payload.result) {\n        if (!msg.payload.result[key].hasOwnProperty('active')) {\n            result[key].active=false\n        } \n        if (!msg.payload.result[key].hasOwnProperty('enabled')) {\n            result[key].enabled=false\n        } \n    }\n}\n\nmsg.payload = result\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1690,
+        "y": 640,
+        "wires": [
+            [
+                "c440cc1125164cd7"
+            ]
+        ]
+    },
+    {
+        "id": "4207f8823e980692",
+        "type": "inject",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "snapd_rest_api_get",
+        "payload": "/v2/snaps",
+        "payloadType": "str",
+        "x": 230,
+        "y": 660,
+        "wires": [
+            [
+                "f82ab287110e0992"
+            ]
+        ]
+    },
+    {
+        "id": "2ce4d8e3772ba000",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "reset app list",
+        "func": "var empty_result = []\nmsg.payload=empty_result\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1550,
+        "y": 580,
+        "wires": [
+            [
+                "3a0681c1891c9310"
+            ]
+        ]
+    },
+    {
+        "id": "42282a8b089795a6",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "start",
+        "group": "07de419d1e087d6d",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "start",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "start",
+        "payloadType": "str",
+        "topic": "service_name",
+        "topicType": "flow",
+        "x": 2350,
+        "y": 540,
+        "wires": [
+            [
+                "19deb321ce5ec356"
+            ]
+        ]
+    },
+    {
+        "id": "2c6c29176c95c624",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "restart",
+        "group": "07de419d1e087d6d",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "restart",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "restart",
+        "payloadType": "str",
+        "topic": "service_name_short",
+        "topicType": "flow",
+        "x": 2350,
+        "y": 580,
+        "wires": [
+            [
+                "19deb321ce5ec356"
+            ]
+        ]
+    },
+    {
+        "id": "ba7a57ec3ade9d00",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "enable",
+        "group": "07de419d1e087d6d",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "enable",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "enable",
+        "payloadType": "str",
+        "topic": "service_name",
+        "topicType": "flow",
+        "x": 2350,
+        "y": 620,
+        "wires": [
+            [
+                "19deb321ce5ec356"
+            ]
+        ]
+    },
+    {
+        "id": "f547830a9ddf7f0c",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "stop",
+        "group": "07de419d1e087d6d",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "stop",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "stop",
+        "payloadType": "str",
+        "topic": "service_name",
+        "topicType": "flow",
+        "x": 2350,
+        "y": 660,
+        "wires": [
+            [
+                "19deb321ce5ec356"
+            ]
+        ]
+    },
+    {
+        "id": "a2c0b1bd5a1181b1",
+        "type": "ui_button",
+        "z": "a9aa78485087f860",
+        "name": "disable",
+        "group": "07de419d1e087d6d",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "disable",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "disable",
+        "payloadType": "str",
+        "topic": "service_name",
+        "topicType": "flow",
+        "x": 2360,
+        "y": 700,
+        "wires": [
+            [
+                "19deb321ce5ec356"
+            ]
+        ]
+    },
+    {
+        "id": "827cdc2b09835474",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "select service",
+        "func": "if (msg.payload.snap === msg.payload.name) \n    flow.set(\"service_name_short\", msg.payload.name)\n\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2140,
+        "y": 580,
+        "wires": [
+            [
+                "42282a8b089795a6",
+                "2c6c29176c95c624",
+                "ba7a57ec3ade9d00",
+                "f547830a9ddf7f0c",
+                "a2c0b1bd5a1181b1",
+                "c296937d1944bc2a"
+            ]
+        ]
+    },
+    {
+        "id": "b20250d2175a2570",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "create POST",
+        "func": "if (msg.payload === 'enable') {\n    msg.payload='{ \"command\" : \"/v2/apps\" , \"body\" : { \"action\" : \"start\", \"enable\": true, \"names\": [\"' + msg.topic + '\"] } }'\n    msg.topic = \"snapd_rest_api_post\"\n} else if (msg.payload === 'disable') {\n    msg.payload='{ \"command\" : \"/v2/apps\" , \"body\" : { \"action\" : \"stop\", \"disable\": true, \"names\": [\"' + msg.topic + '\"] } }'\n    msg.topic = \"snapd_rest_api_post\"\n} else {    \n    msg.payload='{ \"command\" : \"/v2/apps\" , \"body\" : { \"action\" : \"' + msg.payload + '\", \"names\": [\"' + msg.topic + '\"] } }'\n    msg.topic = \"snapd_rest_api_post\"\n}\n\n\n\nmsg.payload = JSON.parse(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2710,
+        "y": 660,
+        "wires": [
+            [
+                "8d83fa8b20127fb1"
+            ]
+        ]
+    },
+    {
+        "id": "8d83fa8b20127fb1",
+        "type": "snapd",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "x": 2850,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "31dd5d7bfe1c27ed",
+        "type": "inject",
+        "z": "a9aa78485087f860",
+        "name": "refresh service status",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "flow",
+                "v": "service_name",
+                "vt": "flow"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "refresh",
+        "payloadType": "jsonata",
+        "x": 1040,
+        "y": 740,
+        "wires": [
+            [
+                "c296937d1944bc2a"
+            ]
+        ]
+    },
+    {
+        "id": "c296937d1944bc2a",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "check snap name",
+        "func": "if (flow.get(\"service_name\") != \"\") {\n    msg.payload=\"/v2/apps?select=service&names=\" + flow.get(\"service_name\")\n    msg.topic=\"snapd_rest_api_get\"\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1290,
+        "y": 740,
+        "wires": [
+            [
+                "d667bd65535ef273"
+            ]
+        ]
+    },
+    {
+        "id": "a5b6ddfa261112ad",
+        "type": "ui_toast",
+        "z": "a9aa78485087f860",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "show error",
+        "x": 2870,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "19deb321ce5ec356",
+        "type": "switch",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "property": "service_name",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2550,
+        "y": 620,
+        "wires": [
+            [
+                "24dcd4bae149b0db"
+            ],
+            [
+                "b20250d2175a2570"
+            ]
+        ]
+    },
+    {
+        "id": "24dcd4bae149b0db",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "error",
+        "func": "msg.payload = \"Click on one service first!\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2690,
+        "y": 580,
+        "wires": [
+            [
+                "a5b6ddfa261112ad"
+            ]
+        ]
+    },
+    {
+        "id": "bd639be9048f3aeb",
+        "type": "inject",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "6",
+        "topic": "snapd_rest_api_get",
+        "payload": "/v2/system-info",
+        "payloadType": "str",
+        "x": 180,
+        "y": 240,
+        "wires": [
+            [
+                "65c5aa7501ea4591"
+            ]
+        ]
+    },
+    {
+        "id": "44d8fde8ecdd503c",
+        "type": "inject",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "7",
+        "topic": "snapd_rest_api_get",
+        "payload": "/v2/apps",
+        "payloadType": "str",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "7fa903afbafef497"
+            ]
+        ]
+    },
+    {
+        "id": "d71b8b554db49556",
+        "type": "inject",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "snapd_rest_api_get",
+        "payload": "/v2/systems",
+        "payloadType": "str",
+        "x": 150,
+        "y": 340,
+        "wires": [
+            [
+                "aa05f63e277d5420"
+            ]
+        ]
+    },
+    {
+        "id": "976434b20173798f",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "prepare for reload services",
+        "func": "if ( (flow.get(\"snap_name\") != null) && (flow.get(\"snap_name\") != \"\" )) {\n    flow.set(\"service_name\", \"\")\n    flow.set(\"service_name_short\", \"\")\n    msg.payload=\"/v2/apps?select=service&names=\" + flow.get(\"snap_name\")\n    msg.topic=\"snapd_rest_api_get\"\n\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 660,
+        "wires": [
+            [
+                "d667bd65535ef273"
+            ]
+        ]
+    },
+    {
+        "id": "d15097d27da2f554",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "initialize services",
+        "func": "flow.set(\"service_name\",\"\")\nflow.set(\"service_name_short\",\"\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 580,
+        "wires": [
+            [
+                "11c4a58d07257520"
+            ]
+        ]
+    },
+    {
+        "id": "f82ab287110e0992",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "initialize services",
+        "func": "flow.set(\"snap_name\",\"\")\nflow.set(\"service_name\",\"\")\nflow.set(\"service_name_short\",\"\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 660,
+        "wires": [
+            [
+                "11c4a58d07257520"
+            ]
+        ]
+    },
+    {
+        "id": "c440cc1125164cd7",
+        "type": "switch",
+        "z": "a9aa78485087f860",
+        "name": "",
+        "property": "msg.payload.length",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1850,
+        "y": 640,
+        "wires": [
+            [
+                "3a0681c1891c9310"
+            ],
+            [
+                "44a63edde891cd67"
+            ]
+        ]
+    },
+    {
+        "id": "44a63edde891cd67",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "auto-select service",
+        "func": "msg.payload=msg.payload[0]\n\nif (msg.payload.snap === msg.payload.name) \n    flow.set(\"service_name_short\", msg.payload.name)\n\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2130,
+        "y": 660,
+        "wires": [
+            [
+                "42282a8b089795a6",
+                "2c6c29176c95c624",
+                "ba7a57ec3ade9d00",
+                "f547830a9ddf7f0c",
+                "a2c0b1bd5a1181b1"
             ]
         ]
     },
@@ -4200,7 +5161,7 @@
         "type": "function",
         "z": "085a1f4e80349b48",
         "name": "setup",
-        "func": "global.set(\"grafana_protocol\",\"http://\")\nglobal.set(\"grafana_admin\",\"admin:admin\")\nglobal.set(\"grafana_host\",\"localhost\")\nglobal.set(\"grafana_port\",\"3000\")\nflow.set(\"api_key_name\",\"mykey\")\nflow.set(\"api_key_name_id\",\"1\")\n\nreturn msg;",
+        "func": "global.set(\"grafana_protocol\",\"http://\")\nglobal.set(\"grafana_admin\",\"admin:admin\")\nglobal.set(\"grafana_host\",\"localhost\")\nglobal.set(\"grafana_port\",\"7000\")\nflow.set(\"api_key_name\",\"mykey\")\nflow.set(\"api_key_name_id\",\"1\")\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",

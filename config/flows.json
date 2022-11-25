@@ -5097,7 +5097,7 @@
         "type": "function",
         "z": "085a1f4e80349b48",
         "name": "Restart Grafana",
-        "func": "msg.topic = \"snapd_rest_api_post\"\nmsg.payload = '{ \"command\" : \"/v2/apps\" , \"body\" : {\"action\": \"restart\", \"names\": [\"grafana-cs\"]} }'\nmsg.payload = JSON.parse(msg.payload);\nreturn msg;",
+        "func": "msg.topic = \"snapd_rest_api_post\"\nmsg.payload = '{ \"command\" : \"/v2/apps\" , \"body\" : {\"action\": \"restart\", \"names\": [\"iotdevice-grafana-cs\"]} }'\nmsg.payload = JSON.parse(msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",

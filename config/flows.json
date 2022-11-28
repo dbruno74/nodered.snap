@@ -2295,7 +2295,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 3740,
+        "x": 3720,
         "y": 220,
         "wires": [
             [
@@ -2377,12 +2377,12 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": "0.1",
+        "onceDelay": ".1",
         "topic": "",
         "payload": "",
         "payloadType": "date",
         "x": 1410,
-        "y": 100,
+        "y": 140,
         "wires": [
             [
                 "0208f60fe01aca28"
@@ -2444,23 +2444,6 @@
             [
                 "6434639d62ea72d8"
             ]
-        ]
-    },
-    {
-        "id": "688aa57cb981d199",
-        "type": "function",
-        "z": "ea5d4dd247fe2c99",
-        "name": "set BLE switch status",
-        "func": "flow.set(\"ble_sw\",1)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 2320,
-        "y": 80,
-        "wires": [
-            []
         ]
     },
     {
@@ -2534,7 +2517,7 @@
         "id": "0208f60fe01aca28",
         "type": "exec",
         "z": "ea5d4dd247fe2c99",
-        "command": "busctl get-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered",
+        "command": "busctl set-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 Powered b true",
         "addpay": "",
         "append": "",
         "useSpawn": "false",
@@ -2542,12 +2525,10 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 1780,
-        "y": 100,
+        "x": 1860,
+        "y": 140,
         "wires": [
-            [
-                "fa3c77ebdef2049c"
-            ],
+            [],
             [],
             [
                 "e404fcee685007fc"
@@ -2555,70 +2536,22 @@
         ]
     },
     {
-        "id": "fa3c77ebdef2049c",
-        "type": "switch",
-        "z": "ea5d4dd247fe2c99",
-        "name": "",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "cont",
-                "v": "b true",
-                "vt": "str"
-            },
-            {
-                "t": "cont",
-                "v": "b false",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 2130,
-        "y": 100,
-        "wires": [
-            [
-                "688aa57cb981d199"
-            ],
-            [
-                "331c7310e053d277"
-            ]
-        ]
-    },
-    {
-        "id": "331c7310e053d277",
-        "type": "function",
-        "z": "ea5d4dd247fe2c99",
-        "name": "set BLE switch status",
-        "func": "flow.set(\"ble_sw\",0)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 2320,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "e404fcee685007fc",
         "type": "function",
         "z": "ea5d4dd247fe2c99",
         "name": "set BLE switch status",
-        "func": "if (msg.payload.code != 0) \n    flow.set(\"ble_sw\",0)\nreturn msg;",
+        "func": "if (msg.payload.code != 0) {\n    flow.set(\"ble_sw\",0)\n    msg.payload = 'off';\n} else {\n    flow.set(\"ble_sw\",1)\n    msg.payload = 'discovering';\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2320,
-        "y": 160,
+        "x": 2360,
+        "y": 140,
         "wires": [
-            []
+            [
+                "6c1b111ba3323868"
+            ]
         ]
     },
     {

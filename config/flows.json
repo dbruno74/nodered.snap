@@ -4531,7 +4531,7 @@
         "senderr": false,
         "headers": [],
         "x": 520,
-        "y": 300,
+        "y": 360,
         "wires": [
             [
                 "016e44da8ce94fbf"
@@ -4549,59 +4549,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 460,
-        "y": 220,
+        "x": 320,
+        "y": 280,
         "wires": [
             [
                 "6f08acba8b5a4e24"
-            ]
-        ]
-    },
-    {
-        "id": "4766788cc9c8e0c9",
-        "type": "function",
-        "z": "6f115337e98614cb",
-        "name": "setup",
-        "func": "global.set(\"core-data_url\",\"http://localhost:59880/api/v2/\" )\nglobal.set(\"core-metadata_url\",\"http://localhost:59881/api/v2/\" )\n\nlet device_name = \"sensortag1\"\nlet device_description = \"TI Sensortag #1\"\n\nlet register_device_service = {\n    \"name\": \"sensortag-control-device-service\",\n    \"description\": \"Manage Sensortag data\", \n    \"adminState\": \"UNLOCKED\", \n    \"labels\": [\"sensortag\",\"data\"], \n    \"baseAddress\": \"sensortag-device-service:59990\"\n}\n\nlet provision_device = {\n    \"name\": device_name,\n    \"description\": device_description,\n    \"adminState\": \"UNLOCKED\",\n    \"operatingState\": \"UP\",\n    \"labels\": [\"sensortag\",\"data\"],\n    \"location\": \"{lat:45.45,long:47.80}\",\n    \"serviceName\": \"sensortag-control-device-service\",\n    \"profileName\": \"Sensortag-Profile\",\n    \"protocols\": {\"sensortag-protocol\": {\"sensortag-address\": \"localhost\",\"port\": \"1234\",\"unitID\": \"1\"}},\n    \"notify\": false\n}\n    \nflow.set(\"device_service_profile_filename\",\"EdgeX_SensortagProfile.yml\")\nflow.set(\"register_device_service\", register_device_service);\nflow.set(\"provision_device\", provision_device);\nglobal.set(\"device_name\",device_name);\n\nreturn [msg, null];",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 250,
-        "y": 220,
-        "wires": [
-            [
-                "26d78d7c70f67f3b"
-            ]
-        ]
-    },
-    {
-        "id": "19de334a90e47cd2",
-        "type": "inject",
-        "z": "6f115337e98614cb",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": ".1",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
-        "y": 220,
-        "wires": [
-            [
-                "4766788cc9c8e0c9"
             ]
         ]
     },
@@ -4617,8 +4569,8 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 720,
-        "y": 220,
+        "x": 560,
+        "y": 280,
         "wires": [
             [
                 "feaadf842eaf8586"
@@ -4637,7 +4589,7 @@
         "finalize": "",
         "libs": [],
         "x": 280,
-        "y": 300,
+        "y": 360,
         "wires": [
             [
                 "30dc3ab1598f37c9"
@@ -4834,7 +4786,7 @@
         "finalize": "",
         "libs": [],
         "x": 280,
-        "y": 380,
+        "y": 440,
         "wires": [
             [
                 "7983eae0cfbe9606"
@@ -4858,7 +4810,7 @@
         "senderr": false,
         "headers": [],
         "x": 520,
-        "y": 380,
+        "y": 440,
         "wires": [
             [
                 "90a35f5b34836e57"
@@ -4877,7 +4829,7 @@
         "finalize": "",
         "libs": [],
         "x": 280,
-        "y": 460,
+        "y": 520,
         "wires": [
             [
                 "c685577e7aa14284"
@@ -4901,7 +4853,7 @@
         "senderr": false,
         "headers": [],
         "x": 520,
-        "y": 460,
+        "y": 520,
         "wires": [
             []
         ]
@@ -4984,10 +4936,70 @@
         "wires": []
     },
     {
-        "id": "6660c4d141322e0c",
+        "id": "2128113bff199c2b",
+        "type": "http request",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "01ca5c4617594f93"
+            ]
+        ]
+    },
+    {
+        "id": "e89eb57913ec9b28",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "Prepare url",
+        "func": "msg.url = \"http://localhost:7880/\" + \"ping_edgex_core_metadata\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "2128113bff199c2b"
+            ]
+        ]
+    },
+    {
+        "id": "01ca5c4617594f93",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = 1\nelse\n    msg.payload = 0\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 220,
+        "wires": [
+            [
+                "f03ed3c68e8ef56c"
+            ]
+        ]
+    },
+    {
+        "id": "470129ed93934918",
         "type": "inject",
-        "z": "085a1f4e80349b48",
-        "name": "Startup",
+        "z": "6f115337e98614cb",
+        "name": "",
         "props": [
             {
                 "p": "payload"
@@ -5004,12 +5016,119 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 120,
-        "y": 140,
+        "x": 110,
+        "y": 220,
         "wires": [
             [
-                "9a9e8bbfbfbfd35c"
+                "4766788cc9c8e0c9"
             ]
+        ]
+    },
+    {
+        "id": "4766788cc9c8e0c9",
+        "type": "function",
+        "z": "6f115337e98614cb",
+        "name": "setup",
+        "func": "global.set(\"core-data_url\",\"http://localhost:59880/api/v2/\" )\nglobal.set(\"core-metadata_url\",\"http://localhost:59881/api/v2/\" )\nglobal.set(\"edgex-configured\",0)\n\nlet device_name = \"sensortag1\"\nlet device_description = \"TI Sensortag #1\"\n\nlet register_device_service = {\n    \"name\": \"sensortag-control-device-service\",\n    \"description\": \"Manage Sensortag data\", \n    \"adminState\": \"UNLOCKED\", \n    \"labels\": [\"sensortag\",\"data\"], \n    \"baseAddress\": \"sensortag-device-service:59990\"\n}\n\nlet provision_device = {\n    \"name\": device_name,\n    \"description\": device_description,\n    \"adminState\": \"UNLOCKED\",\n    \"operatingState\": \"UP\",\n    \"labels\": [\"sensortag\",\"data\"],\n    \"location\": \"{lat:45.45,long:47.80}\",\n    \"serviceName\": \"sensortag-control-device-service\",\n    \"profileName\": \"Sensortag-Profile\",\n    \"protocols\": {\"sensortag-protocol\": {\"sensortag-address\": \"localhost\",\"port\": \"1234\",\"unitID\": \"1\"}},\n    \"notify\": false\n}\n    \nflow.set(\"device_service_profile_filename\",\"EdgeX_SensortagProfile.yml\")\nflow.set(\"register_device_service\", register_device_service);\nflow.set(\"provision_device\", provision_device);\nglobal.set(\"device_name\",device_name);\n\nreturn [msg, null];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "e89eb57913ec9b28"
+            ]
+        ]
+    },
+    {
+        "id": "f03ed3c68e8ef56c",
+        "type": "switch",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 930,
+        "y": 220,
+        "wires": [
+            [
+                "6269a61999ed3a73"
+            ],
+            [
+                "26d78d7c70f67f3b"
+            ]
+        ]
+    },
+    {
+        "id": "6269a61999ed3a73",
+        "type": "controltimer",
+        "z": "6f115337e98614cb",
+        "name": "",
+        "timerType": "delay",
+        "timerDurationUnit": "second",
+        "timerDurationType": "num",
+        "timerDuration": 5,
+        "timerLoopTimeoutUnit": "second",
+        "timerLoopTimeoutType": "num",
+        "timerLoopTimeout": 0,
+        "loopTimeoutMessageType": "str",
+        "loopTimeoutMessage": "LOOP_TIMEOUT",
+        "timerMaxLoopIterationsType": "num",
+        "timerMaxLoopIterations": 0,
+        "loopMaxIterationsMessageType": "str",
+        "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
+        "isConsecutiveStartActionTimerResetAllowed": false,
+        "isRunningTimerProgressVisible": true,
+        "outputReceivedMessageOnTimerTrigger": false,
+        "outputReceivedMessageOnTimerHalt": false,
+        "startTimerOnReceivalOfUnknownMessage": true,
+        "resetTimerOnReceivalOfUnknownMessage": false,
+        "isDebugModeEnabled": false,
+        "timerTriggeredMessageType": "str",
+        "timerTriggeredMessage": "TIMER_TRIGGERED",
+        "timerHaltedMessageType": "str",
+        "timerHaltedMessage": "TIMER_HALTED",
+        "isStartActionEnabled": true,
+        "isStopActionEnabled": true,
+        "isResetActionEnabled": true,
+        "isPauseActionEnabled": true,
+        "isContinueActionEnabled": true,
+        "actionPropertyNameType": "str",
+        "actionPropertyName": "payload",
+        "startActionNameType": "str",
+        "startActionName": "START",
+        "stopActionNameType": "str",
+        "stopActionName": "STOP",
+        "resetActionNameType": "str",
+        "resetActionName": "RESET",
+        "pauseActionNameType": "str",
+        "pauseActionName": "PAUSE",
+        "continueActionNameType": "str",
+        "continueActionName": "CONTINUE",
+        "x": 1080,
+        "y": 180,
+        "wires": [
+            [
+                "e89eb57913ec9b28"
+            ],
+            []
         ]
     },
     {
@@ -5018,10 +5137,11 @@
         "z": "085a1f4e80349b48",
         "name": "",
         "x": 970,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
-                "66e14d5b27722301"
+                "66e14d5b27722301",
+                "e2c29f2afd832e6a"
             ]
         ]
     },
@@ -5037,7 +5157,7 @@
         "finalize": "",
         "libs": [],
         "x": 780,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "f043b4252bdbb057"
@@ -5057,56 +5177,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1140,
-        "y": 140,
+        "y": 160,
         "wires": []
-    },
-    {
-        "id": "8b0bd95d4b72f670",
-        "type": "inject",
-        "z": "085a1f4e80349b48",
-        "name": "Startup",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "2",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 240,
-        "wires": [
-            [
-                "2d0a89897ce1c895"
-            ]
-        ]
-    },
-    {
-        "id": "2d0a89897ce1c895",
-        "type": "function",
-        "z": "085a1f4e80349b48",
-        "name": "setup",
-        "func": "global.set(\"grafana_protocol\",\"http://\")\nglobal.set(\"grafana_admin\",\"admin:admin\")\nglobal.set(\"grafana_host\",\"localhost\")\nglobal.set(\"grafana_port\",\"7000\")\nflow.set(\"api_key_name\",\"mykey\")\nflow.set(\"api_key_name_id\",\"1\")\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 290,
-        "y": 240,
-        "wires": [
-            [
-                "00c5efb789c45100"
-            ]
-        ]
     },
     {
         "id": "133650d4fed7c34a",
@@ -5120,7 +5192,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "123bd28c1e47d4dd"
@@ -5144,7 +5216,7 @@
         "senderr": false,
         "headers": [],
         "x": 790,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "e887d8271703a80d",
@@ -5164,7 +5236,7 @@
         "finalize": "",
         "libs": [],
         "x": 140,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "0cbc6f8a514cb6ed"
@@ -5188,7 +5260,7 @@
         "senderr": false,
         "headers": [],
         "x": 360,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "133650d4fed7c34a"
@@ -5202,7 +5274,7 @@
         "property": "payload",
         "name": "",
         "x": 950,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "1ef5410ec2251875"
@@ -5221,7 +5293,7 @@
         "finalize": "",
         "libs": [],
         "x": 460,
-        "y": 240,
+        "y": 360,
         "wires": [
             [
                 "f2a235d747e1274c"
@@ -5245,7 +5317,7 @@
         "senderr": false,
         "headers": [],
         "x": 640,
-        "y": 240,
+        "y": 360,
         "wires": [
             [
                 "915cd1e1e962707f"
@@ -5259,7 +5331,7 @@
         "property": "payload",
         "name": "",
         "x": 810,
-        "y": 240,
+        "y": 360,
         "wires": [
             [
                 "7b787abd3b52e281"
@@ -5278,7 +5350,7 @@
         "finalize": "",
         "libs": [],
         "x": 950,
-        "y": 240,
+        "y": 360,
         "wires": [
             [
                 "61371d834a4c277a"
@@ -5297,7 +5369,7 @@
         "finalize": "",
         "libs": [],
         "x": 1100,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "56a7e423e2c96a4b"
@@ -5316,7 +5388,7 @@
         "finalize": "",
         "libs": [],
         "x": 140,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "2a86a5409ed06a9f"
@@ -5340,7 +5412,7 @@
         "senderr": false,
         "headers": [],
         "x": 360,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "c582fa73a3ab810d"
@@ -5359,7 +5431,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "5cbf4cbc9df28a05"
@@ -5379,7 +5451,7 @@
         "encoding": "none",
         "allProps": false,
         "x": 370,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "d2100a9ba3059c36"
@@ -5398,7 +5470,7 @@
         "overwriteFile": "true",
         "encoding": "none",
         "x": 600,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "1f67b6a70e1ddad5"
@@ -5418,7 +5490,7 @@
         "encoding": "none",
         "allProps": false,
         "x": 460,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "3afe413a443f2291"
@@ -5437,7 +5509,7 @@
         "finalize": "",
         "libs": [],
         "x": 290,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "8c9aee94a7fe073c"
@@ -5456,7 +5528,7 @@
         "finalize": "",
         "libs": [],
         "x": 150,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "e13c20cfa747fef3"
@@ -5480,7 +5552,7 @@
         "senderr": false,
         "headers": [],
         "x": 790,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "ed197710a188971c",
@@ -5501,7 +5573,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1000,
-        "y": 420,
+        "y": 540,
         "wires": []
     },
     {
@@ -5516,7 +5588,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "fc266b9a86975bb0"
@@ -5540,7 +5612,7 @@
         "senderr": false,
         "headers": [],
         "x": 850,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "7e6e94e708019f33"
@@ -5561,7 +5633,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1250,
-        "y": 200,
+        "y": 320,
         "wires": []
     },
     {
@@ -5576,7 +5648,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 480,
+        "y": 600,
         "wires": [
             [
                 "d663a3427fd7a6f9"
@@ -5596,7 +5668,7 @@
         "encoding": "none",
         "allProps": false,
         "x": 370,
-        "y": 480,
+        "y": 600,
         "wires": [
             [
                 "3feb0e6853e52d28"
@@ -5620,7 +5692,7 @@
         "senderr": false,
         "headers": [],
         "x": 790,
-        "y": 480,
+        "y": 600,
         "wires": [
             [
                 "877286b3e64b2bd6"
@@ -5640,7 +5712,406 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1000,
-        "y": 480,
+        "y": 600,
         "wires": []
+    },
+    {
+        "id": "e0fb35b2f3f97bac",
+        "type": "inject",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": ".1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "2d0a89897ce1c895"
+            ]
+        ]
+    },
+    {
+        "id": "1ab588c814980fe8",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 590,
+        "y": 80,
+        "wires": [
+            [
+                "7e664b52714e95aa"
+            ]
+        ]
+    },
+    {
+        "id": "aa600308672c2a9e",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Prepare url",
+        "func": "msg.url = global.get(\"grafana_protocol\") + global.get(\"grafana_admin\") + \"@\" + global.get(\"grafana_host\") + \":\" + global.get(\"grafana_port\") + \"/api/health\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 80,
+        "wires": [
+            [
+                "1ab588c814980fe8"
+            ]
+        ]
+    },
+    {
+        "id": "7e664b52714e95aa",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = 1\nelse\n    msg.payload = 0\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 80,
+        "wires": [
+            [
+                "dcb54b3c4f02db50"
+            ]
+        ]
+    },
+    {
+        "id": "fecd3c899e2165a9",
+        "type": "controltimer",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "timerType": "delay",
+        "timerDurationUnit": "second",
+        "timerDurationType": "num",
+        "timerDuration": 1,
+        "timerLoopTimeoutUnit": "second",
+        "timerLoopTimeoutType": "num",
+        "timerLoopTimeout": 0,
+        "loopTimeoutMessageType": "str",
+        "loopTimeoutMessage": "LOOP_TIMEOUT",
+        "timerMaxLoopIterationsType": "num",
+        "timerMaxLoopIterations": 0,
+        "loopMaxIterationsMessageType": "str",
+        "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
+        "isConsecutiveStartActionTimerResetAllowed": false,
+        "isRunningTimerProgressVisible": true,
+        "outputReceivedMessageOnTimerTrigger": false,
+        "outputReceivedMessageOnTimerHalt": false,
+        "startTimerOnReceivalOfUnknownMessage": true,
+        "resetTimerOnReceivalOfUnknownMessage": false,
+        "isDebugModeEnabled": false,
+        "timerTriggeredMessageType": "str",
+        "timerTriggeredMessage": "TIMER_TRIGGERED",
+        "timerHaltedMessageType": "str",
+        "timerHaltedMessage": "TIMER_HALTED",
+        "isStartActionEnabled": true,
+        "isStopActionEnabled": true,
+        "isResetActionEnabled": true,
+        "isPauseActionEnabled": true,
+        "isContinueActionEnabled": true,
+        "actionPropertyNameType": "str",
+        "actionPropertyName": "payload",
+        "startActionNameType": "str",
+        "startActionName": "START",
+        "stopActionNameType": "str",
+        "stopActionName": "STOP",
+        "resetActionNameType": "str",
+        "resetActionName": "RESET",
+        "pauseActionNameType": "str",
+        "pauseActionName": "PAUSE",
+        "continueActionNameType": "str",
+        "continueActionName": "CONTINUE",
+        "x": 1100,
+        "y": 40,
+        "wires": [
+            [
+                "aa600308672c2a9e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "dcb54b3c4f02db50",
+        "type": "switch",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 930,
+        "y": 80,
+        "wires": [
+            [
+                "fecd3c899e2165a9"
+            ],
+            [
+                "9a9e8bbfbfbfd35c"
+            ]
+        ]
+    },
+    {
+        "id": "d057ac6d718d03e2",
+        "type": "http request",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 260,
+        "wires": [
+            [
+                "ef5597621d4a5289"
+            ]
+        ]
+    },
+    {
+        "id": "e2c29f2afd832e6a",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "Prepare url",
+        "func": "msg.url = global.get(\"grafana_protocol\") + global.get(\"grafana_admin\") + \"@\" + global.get(\"grafana_host\") + \":\" + global.get(\"grafana_port\") + \"/api/health\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 260,
+        "wires": [
+            [
+                "d057ac6d718d03e2"
+            ]
+        ]
+    },
+    {
+        "id": "ef5597621d4a5289",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "function",
+        "func": "if ( msg.statusCode === 200)\n    msg.payload = 1\nelse\n    msg.payload = 0\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 260,
+        "wires": [
+            [
+                "2415328cea6aa726"
+            ]
+        ]
+    },
+    {
+        "id": "64da19ce5d036f42",
+        "type": "controltimer",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "timerType": "delay",
+        "timerDurationUnit": "second",
+        "timerDurationType": "num",
+        "timerDuration": 1,
+        "timerLoopTimeoutUnit": "second",
+        "timerLoopTimeoutType": "num",
+        "timerLoopTimeout": 0,
+        "loopTimeoutMessageType": "str",
+        "loopTimeoutMessage": "LOOP_TIMEOUT",
+        "timerMaxLoopIterationsType": "num",
+        "timerMaxLoopIterations": 0,
+        "loopMaxIterationsMessageType": "str",
+        "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
+        "isConsecutiveStartActionTimerResetAllowed": false,
+        "isRunningTimerProgressVisible": true,
+        "outputReceivedMessageOnTimerTrigger": false,
+        "outputReceivedMessageOnTimerHalt": false,
+        "startTimerOnReceivalOfUnknownMessage": true,
+        "resetTimerOnReceivalOfUnknownMessage": false,
+        "isDebugModeEnabled": false,
+        "timerTriggeredMessageType": "str",
+        "timerTriggeredMessage": "TIMER_TRIGGERED",
+        "timerHaltedMessageType": "str",
+        "timerHaltedMessage": "TIMER_HALTED",
+        "isStartActionEnabled": true,
+        "isStopActionEnabled": true,
+        "isResetActionEnabled": true,
+        "isPauseActionEnabled": true,
+        "isContinueActionEnabled": true,
+        "actionPropertyNameType": "str",
+        "actionPropertyName": "payload",
+        "startActionNameType": "str",
+        "startActionName": "START",
+        "stopActionNameType": "str",
+        "stopActionName": "STOP",
+        "resetActionNameType": "str",
+        "resetActionName": "RESET",
+        "pauseActionNameType": "str",
+        "pauseActionName": "PAUSE",
+        "continueActionNameType": "str",
+        "continueActionName": "CONTINUE",
+        "x": 960,
+        "y": 220,
+        "wires": [
+            [
+                "e2c29f2afd832e6a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2415328cea6aa726",
+        "type": "switch",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "64da19ce5d036f42"
+            ],
+            [
+                "de1d73acf1d4109a"
+            ]
+        ]
+    },
+    {
+        "id": "2d0a89897ce1c895",
+        "type": "function",
+        "z": "085a1f4e80349b48",
+        "name": "setup",
+        "func": "global.set(\"grafana_protocol\",\"http://\")\nglobal.set(\"grafana_admin\",\"admin:admin\")\nglobal.set(\"grafana_host\",\"localhost\")\nglobal.set(\"grafana_port\",\"7000\")\nflow.set(\"api_key_name\",\"mykey\")\nflow.set(\"api_key_name_id\",\"1\")\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 80,
+        "wires": [
+            [
+                "aa600308672c2a9e"
+            ]
+        ]
+    },
+    {
+        "id": "de1d73acf1d4109a",
+        "type": "controltimer",
+        "z": "085a1f4e80349b48",
+        "name": "",
+        "timerType": "delay",
+        "timerDurationUnit": "second",
+        "timerDurationType": "num",
+        "timerDuration": 3,
+        "timerLoopTimeoutUnit": "second",
+        "timerLoopTimeoutType": "num",
+        "timerLoopTimeout": 0,
+        "loopTimeoutMessageType": "str",
+        "loopTimeoutMessage": "LOOP_TIMEOUT",
+        "timerMaxLoopIterationsType": "num",
+        "timerMaxLoopIterations": 0,
+        "loopMaxIterationsMessageType": "str",
+        "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
+        "isConsecutiveStartActionTimerResetAllowed": false,
+        "isRunningTimerProgressVisible": true,
+        "outputReceivedMessageOnTimerTrigger": false,
+        "outputReceivedMessageOnTimerHalt": false,
+        "startTimerOnReceivalOfUnknownMessage": true,
+        "resetTimerOnReceivalOfUnknownMessage": false,
+        "isDebugModeEnabled": false,
+        "timerTriggeredMessageType": "str",
+        "timerTriggeredMessage": "TIMER_TRIGGERED",
+        "timerHaltedMessageType": "str",
+        "timerHaltedMessage": "TIMER_HALTED",
+        "isStartActionEnabled": true,
+        "isStopActionEnabled": true,
+        "isResetActionEnabled": true,
+        "isPauseActionEnabled": true,
+        "isContinueActionEnabled": true,
+        "actionPropertyNameType": "str",
+        "actionPropertyName": "payload",
+        "startActionNameType": "str",
+        "startActionName": "START",
+        "stopActionNameType": "str",
+        "stopActionName": "STOP",
+        "resetActionNameType": "str",
+        "resetActionName": "RESET",
+        "pauseActionNameType": "str",
+        "pauseActionName": "PAUSE",
+        "continueActionNameType": "str",
+        "continueActionName": "CONTINUE",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            [
+                "00c5efb789c45100"
+            ],
+            []
+        ]
     }
 ]

@@ -393,7 +393,7 @@
         "z": "ea5d4dd247fe2c99",
         "name": "",
         "topic": "sensorTag",
-        "uuid": "",
+        "address": "",
         "temperature": true,
         "humidity": true,
         "pressure": false,

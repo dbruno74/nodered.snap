@@ -393,7 +393,7 @@
         "z": "ea5d4dd247fe2c99",
         "name": "",
         "topic": "sensorTag",
-        "address": "",
+        "uuid": "",
         "temperature": true,
         "humidity": true,
         "pressure": false,
@@ -3906,7 +3906,7 @@
         "type": "function",
         "z": "a9aa78485087f860",
         "name": "prepare for services",
-        "func": "flow.set(\"snap_name\",msg.payload)\nflow.set(\"service_name\", \"\")\nflow.set(\"service_name_short\", \"\")\nmsg.payload=\"/v2/apps?select=service&names=\" + msg.payload\nmsg.topic=\"snapd_rest_api_get\"\n\nreturn msg",
+        "func": "flow.set(\"snap_name\",msg.payload)\nflow.set(\"service_name\", \"\")\nflow.set(\"service_name_short\", \"\")\nflow.set(\"service_active\", 0)\nmsg.payload=\"/v2/apps?select=service&names=\" + msg.payload\nmsg.topic=\"snapd_rest_api_get\"\n\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3938,7 +3938,7 @@
         "type": "function",
         "z": "a9aa78485087f860",
         "name": "patch results",
-        "func": "var result = msg.payload.result\n\nif ( msg.payload.result[0].snap != flow.get(\"snap_name\")){\n    for (var key in msg.payload.result) {\n        if (!msg.payload.result[key].hasOwnProperty('active')) {\n            result[key].active=false\n        } \n        if (!msg.payload.result[key].hasOwnProperty('enabled')) {\n            result[key].enabled=false\n        } \n    }\n}\n\nmsg.payload = result\nreturn msg",
+        "func": "var result = msg.payload.result\n\nif ( msg.payload.result.lenght > 0) {\n    if ( msg.payload.result[0].snap != flow.get(\"snap_name\")){\n        for (var key in msg.payload.result) {\n            if (!msg.payload.result[key].hasOwnProperty('active')) {\n                result[key].active=false\n            } \n            if (!msg.payload.result[key].hasOwnProperty('enabled')) {\n                result[key].enabled=false\n            } \n        }\n    }\n}\n\nmsg.payload = result\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4052,7 +4052,7 @@
         "y": 580,
         "wires": [
             [
-                "19deb321ce5ec356"
+                "14e31bef7f30ae4d"
             ]
         ]
     },
@@ -4145,7 +4145,7 @@
         "type": "function",
         "z": "a9aa78485087f860",
         "name": "select service",
-        "func": "if (msg.payload.snap === msg.payload.name) \n    flow.set(\"service_name_short\", msg.payload.name)\n\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\nreturn msg;",
+        "func": "// workaround for restart: in case of a service with the same name of the snap, use the short name (just the snap name)\nif (msg.payload.snap === msg.payload.name) \n    flow.set(\"service_name_short\", msg.payload.name)\nelse\n    flow.set(\"service_name_short\", msg.payload.snap + \".\" + msg.payload.name)\n\nflow.set(\"service_active\", msg.payload.active)\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4496,7 +4496,7 @@
         "type": "function",
         "z": "a9aa78485087f860",
         "name": "auto-select service",
-        "func": "msg.payload=msg.payload[0]\n\nif (msg.payload.snap === msg.payload.name) \n    flow.set(\"service_name_short\", msg.payload.name)\n\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\n\nreturn msg;",
+        "func": "msg.payload=msg.payload[0]\n\n // workaround for restart: in case of a snap with just one service, always use the short name (just the snap name)\nflow.set(\"service_name_short\", msg.payload.snap)\n\nflow.set(\"service_name\", msg.payload.snap + \".\" + msg.payload.name)\nflow.set(\"service_active\", msg.payload.active)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4511,6 +4511,25 @@
                 "ba7a57ec3ade9d00",
                 "f547830a9ddf7f0c",
                 "a2c0b1bd5a1181b1"
+            ]
+        ]
+    },
+    {
+        "id": "14e31bef7f30ae4d",
+        "type": "function",
+        "z": "a9aa78485087f860",
+        "name": "start/restart",
+        "func": "// if requested to restart, just start the service if it is currently stopped\nif ((msg.payload === \"restart\") && (!flow.get(\"service_active\"))) {\n    msg.payload=\"start\"\n    msg.topic=flow.get(\"service_name\")\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2530,
+        "y": 540,
+        "wires": [
+            [
+                "19deb321ce5ec356"
             ]
         ]
     },
@@ -4875,7 +4894,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": 0.1,
+        "onceDelay": "1",
         "topic": "",
         "payload": "",
         "payloadType": "date",
@@ -5012,7 +5031,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": 0.1,
+        "onceDelay": "1",
         "topic": "",
         "payload": "",
         "payloadType": "date",

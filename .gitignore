@@ -12,3 +12,4 @@ build_snap.sh
 parts
 prime
 stage
+package-lock.json

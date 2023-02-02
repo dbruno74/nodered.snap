@@ -60,6 +60,35 @@ apps:
       - snapd-control
 
 parts:
+# HOST PARTS
+  cross-build-utils.host:
+    source: https://github.com/dbruno74/cross-build-utils.git
+    plugin: nil
+    override-pull: |
+        craftctl default
+        . $CRAFT_PART_SRC/install/cross-install
+
+  node.host: # We dump in a specific version of node/npm from upstream for building on host only. Note that it is not installed/staged
+    after: [cross-build-utils.host]
+    plugin: dump
+    source:
+    # native
+      - on amd64 to amd64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
+      - on armhf to armhf: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-armv7l.tar.gz
+      - on arm64 to arm64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-arm64.tar.gz
+    # cross
+      - on amd64 to armhf: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
+      - on amd64 to arm64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
+    override-pull: |
+         craftctl default
+         . $CRAFT_PROJECT_DIR/install/node.host-install
+    override-build: |
+         . ~/.cross-env
+         prepare
+         npm install --no-audit --no-fund --global @mapbox/node-pre-gyp
+         echo module node-pre-gyp installed on $HOST_ARCH
+
+# TARGET PARTS
   node: # We dump in a specific version of node/npm from upstream for staging/priming
     after: [node-red]
     plugin: dump
@@ -72,41 +101,18 @@ parts:
       - on amd64 to armhf: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-armv7l.tar.gz
       - on amd64 to arm64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-arm64.tar.gz
     override-build: |
-      # cleaning PATH from INSTALL and STAGE directories
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_PART_INSTALL'[^:]*:*,,g')
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_STAGE'[^:]*:*,,g')
-      echo $PATH
-
-      cp --archive --link --no-dereference . $CRAFT_PART_INSTALL
-
-  node.host: # We dump in a specific version of node/npm from upstream for building on host only. Note that it is not installed/staged
-    plugin: dump
-    source:
-    # native
-      - on amd64 to amd64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
-      - on armhf to armhf: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-armv7l.tar.gz
-      - on arm64 to arm64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-arm64.tar.gz
-    # cross
-      - on amd64 to armhf: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
-      - on amd64 to arm64: https://nodejs.org/dist/v18.12.1/node-v18.12.1-linux-x64.tar.gz
-    override-build: |
-         # cleaning PATH from INSTALL and STAGE directories
-         export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_PART_INSTALL'[^:]*:*,,g')
-         export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_STAGE'[^:]*:*,,g')
-         echo $PATH
-         
-         # install on host 
-         cd $CRAFT_PART_SRC && find . -type d -exec mkdir -p "/{}" \;
-         cd $CRAFT_PART_SRC && find . -type b,c,p,f,l,s -exec cp -P "{}" "/{}" \;
-         export HOST_ARCH=$(uname -m)
-         echo node/npm installed on $HOST_ARCH
-         npm install --no-audit --no-fund --global @mapbox/node-pre-gyp
-         echo module node-pre-gyp installed on $HOST_ARCH
+      . ~/.cross-env
+      prepare
+      craftctl default
 
   node-red:
-    after: [node.host, prepare-env.host]
+    after: [node.host]
     plugin: nil
     source: .
+    build-packages:
+      - python3
+      - sudo
+      - libcap2-bin
     stage-packages:
     # native builds
       - on amd64 to amd64:
@@ -140,7 +146,6 @@ parts:
       - on armhf to armhf:
          - python3:armhf
          - libatomic1:armhf
-         - bluetooth:all
          - bluez:armhf
          - libbluetooth3:armhf
          - libbluetooth-dev:armhf
@@ -178,48 +183,14 @@ parts:
          - libusb-1.0-0:armhf
          - libusb-1.0-0-dev:armhf
          - curl:armhf
-    build-packages:
-    # native builds
-      - on amd64 to amd64:
-          - sudo
-      - on arm64 to arm64:
-          - sudo
-      - on amdhf to amdhf:
-          - sudo
-    # cross builds
-      - on amd64 to arm64:
-          - crossbuild-essential-arm64
-          - sudo
-      - on amd64 to armhf:
-          - crossbuild-essential-armhf
-          - sudo
     override-build: | 
-      set +u
-      # cleaning PATH from INSTALL and STAGE directories
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_PART_INSTALL'[^:]*:*,,g')
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_STAGE'[^:]*:*,,g')
-      echo $PATH
-      
+      . ~/.cross-env
+      prepare-gcc 
+
       npm config set unsafe-perm true
 
       # compile and install bluetooth-hci-socket module
       npm install --no-audit --no-fund --prefix $CRAFT_PART_INSTALL/lib --ignore-scripts @abandonware/bluetooth-hci-socket
-      if [ -z "$CRAFT_ARCH_TRIPLET" ]; then
-         echo CRAFT_ARCH_TRIPLET not set! 
-         exit 1
-      else
-         export AR=$(which $CRAFT_ARCH_TRIPLET\-ar)
-         export CC=$(which $CRAFT_ARCH_TRIPLET\-gcc)
-         export CXX=$(which $CRAFT_ARCH_TRIPLET\-g++)
-         export LINK=$(which $CRAFT_ARCH_TRIPLET\-g++)
-         export LDFLAGS=-L/usr/$CRAFT_ARCH_TRIPLET/lib
-      fi
-
-      if [ -z "$AR" ] || [ -z "$CC" ] || [ -z "$CXX" ] || [ -z "$LINK" ]; then
-         echo "Compiler needed! Please add the package build-essential (for native compilation) or crossbuild-essential-xxx (for cross compilation, replace xxx with your arch, e.g. arm64, armhf, etc.) to build-packages!"
-         exit 1
-      fi
-
       cd $CRAFT_PART_INSTALL/lib/node_modules/@abandonware/bluetooth-hci-socket && /lib/node_modules/@mapbox/node-pre-gyp/bin/node-pre-gyp install --fallback-to-build --target_arch=$CRAFT_TARGET_ARCH
 
       # install global modules
@@ -257,70 +228,25 @@ parts:
 
   settings:
     plugin: dump
-    after: [prepare-env.host, node, node-red]
+    after: [node]
     source: snap/local/settings 
     organize:
       start.sh: "bin/startNR"
       desktop-launch: "bin/desktop-launch"
     override-build: |
-      # cleaning PATH from INSTALL and STAGE directories
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_PART_INSTALL'[^:]*:*,,g')
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_STAGE'[^:]*:*,,g')
-      echo $PATH
-
-      cp --archive --link --no-dereference . $CRAFT_PART_INSTALL
+      . ~/.cross-env
+      prepare
+      craftctl default
 
   config:
-    source: .
-    after: [prepare-env.host, node, node-red]
-    plugin: nil
+    source: config
+    after: [node]
+    plugin: dump
     override-build: |
-      # cleaning PATH from INSTALL and STAGE directories
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_PART_INSTALL'[^:]*:*,,g')
-      export PATH=$(echo $PATH | sed -e 's,:*'$CRAFT_STAGE'[^:]*:*,,g')
-      echo $PATH
+      . ~/.cross-env 
+      prepare
+      craftctl default
 
-      cp -r config $CRAFT_PART_INSTALL/
-
-  prepare-env.host:
-    plugin: nil
-    build-packages: [software-properties-common, coreutils]
-    override-pull: |
-      case $CRAFT_TARGET_ARCH in
-         arm64)
-            export HOST_ARCH=$(uname -m)
-            if [ "$HOST_ARCH" = "x86_64" ]; then
-               echo "Preparing build environment for cross-build on host: $HOST_ARCH, target: $CRAFT_TARGET_ARCH"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy main restricted"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy universe"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-updates universe"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy multiverse"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-updates multiverse"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-security universe"
-               add-apt-repository "deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports jammy-security multiverse"
-            fi
-            ;;
-         armhf)
-            export HOST_ARCH=$(uname -m)
-            if [ "$HOST_ARCH" = "x86_64" ]; then
-               echo "Preparing build environment for cross-build on host: $HOST_ARCH, target: $CRAFT_TARGET_ARCH"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy main restricted"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy universe"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-updates universe"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy multiverse"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-updates multiverse"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-security universe"
-               add-apt-repository "deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports jammy-security multiverse"
-            fi
-            ;;
-      esac
- 
 plugs:
   writable:
     interface: content

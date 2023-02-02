@@ -1,0 +1,2 @@
+cd $CRAFT_PART_SRC && find . -type d -exec mkdir -p "/{}" \;
+cd $CRAFT_PART_SRC && find . -type b,c,p,f,l,s -exec cp -P "{}" "/{}" \;

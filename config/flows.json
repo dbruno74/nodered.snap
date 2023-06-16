@@ -388,6 +388,60 @@
         "className": ""
     },
     {
+        "id": "3f31d164ed156d43",
+        "type": "mqtt-broker",
+        "name": "Hivemq",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4ec9505b5b84225b",
+        "type": "mqtt-broker",
+        "name": "test",
+        "broker": "test.broker.br",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
         "id": "2f94d031281d103a",
         "type": "sensorTag",
         "z": "ea5d4dd247fe2c99",
@@ -505,11 +559,13 @@
         "wires": [
             [
                 "a0655998dd1b3718",
-                "2dbeaf6682c28a0d"
+                "2dbeaf6682c28a0d",
+                "0d48d525f8d16ade"
             ],
             [
                 "a03222ad63609d24",
-                "9de301c9be099860"
+                "9de301c9be099860",
+                "cc188141fc639d41"
             ],
             [
                 "8b91c59add63a4f2"
@@ -519,7 +575,8 @@
             ],
             [
                 "b63cfee2e235adfe",
-                "7ea85d1d4ef3822d"
+                "7ea85d1d4ef3822d",
+                "6958779b77b15014"
             ],
             [
                 "b7c2fdb348be9a07"
@@ -796,7 +853,8 @@
         "wires": [
             [
                 "b3cf728304c9b214",
-                "d21a0938ce8ca62f"
+                "d21a0938ce8ca62f",
+                "3e2cf3aea170626d"
             ]
         ]
     },
@@ -990,7 +1048,8 @@
         "wires": [
             [
                 "459bd54fe662988c",
-                "5220446e825dadd6"
+                "5220446e825dadd6",
+                "839d86e2214cb8bc"
             ]
         ]
     },
@@ -1104,8 +1163,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
-        "y": 600,
+        "x": 1270,
+        "y": 620,
         "wires": []
     },
     {
@@ -1165,8 +1224,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
-        "y": 700,
+        "x": 1270,
+        "y": 720,
         "wires": []
     },
     {
@@ -1838,7 +1897,7 @@
         "name": "Grafana Integration",
         "info": "",
         "x": 750,
-        "y": 1120,
+        "y": 1140,
         "wires": []
     },
     {
@@ -2096,7 +2155,7 @@
         "order": 0,
         "width": "3",
         "height": "2",
-        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_1\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"https://upload.wikimedia.org/wikipedia/en/a/a1/Grafana_logo.svg\"/>\n    <span>dashboard 1</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_1').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigj\";\n</script>",
+        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_1\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"/uimedia/grafana_logo/470px-Grafana_logo.svg.png\"/>\n    <span>dashboard 1</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_1').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigj\";\n</script>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": false,
@@ -2117,7 +2176,7 @@
         "order": 0,
         "width": "3",
         "height": "2",
-        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_2\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"https://upload.wikimedia.org/wikipedia/en/a/a1/Grafana_logo.svg\"/>\n    <span>dashboard 2</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_2').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigh\";\n</script>",
+        "format": "<div style=\"text-align: center; display:block\">\n    <a id=\"grafana_2\" href=\"#\" style=\"text-decoration: none\">\n    <img style=\"width: 70px; height: auto\" src=\"/uimedia/grafana_logo/470px-Grafana_logo.svg.png\"/>\n    <span>dashboard 2</span></a>\n </div>\n\n<script type=\"text/javascript\">\n    document.getElementById('grafana_2').href = \"http://\"+ window.location.hostname + \":7000/d/TyoT6kigh\";\n</script>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": false,
@@ -2607,6 +2666,347 @@
                 "6c1b111ba3323868"
             ],
             []
+        ]
+    },
+    {
+        "id": "729253dd0ba0052c",
+        "type": "mqtt out",
+        "z": "ea5d4dd247fe2c99",
+        "name": "sensorTag/batteryLevel",
+        "topic": "sensorTag/batteryLevel",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3f31d164ed156d43",
+        "x": 1030,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "7b9972bde713a983",
+        "type": "mqtt out",
+        "z": "ea5d4dd247fe2c99",
+        "name": "sensorTag/temperature",
+        "topic": "sensorTag/temperature",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3f31d164ed156d43",
+        "x": 970,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "65998bcb2f72157b",
+        "type": "mqtt out",
+        "z": "ea5d4dd247fe2c99",
+        "name": "sensorTag/humidity",
+        "topic": "sensorTag/humidity",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3f31d164ed156d43",
+        "x": 950,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "9a701dd72b5c9546",
+        "type": "mqtt out",
+        "z": "ea5d4dd247fe2c99",
+        "name": "sensorTag/accelerometer",
+        "topic": "",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3f31d164ed156d43",
+        "x": 1030,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "839d86e2214cb8bc",
+        "type": "mqtt out",
+        "z": "ea5d4dd247fe2c99",
+        "name": "sensorTag/luxometer",
+        "topic": "sensorTag/luxometer",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3f31d164ed156d43",
+        "x": 760,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "0d48d525f8d16ade",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare mqtt data",
+        "func": "msg.payload=msg.payload.ambient;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 700,
+        "wires": [
+            [
+                "7b9972bde713a983"
+            ]
+        ]
+    },
+    {
+        "id": "cc188141fc639d41",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare mqtt data",
+        "func": "msg.payload=msg.payload.humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 800,
+        "wires": [
+            [
+                "65998bcb2f72157b"
+            ]
+        ]
+    },
+    {
+        "id": "6958779b77b15014",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare mqtt data",
+        "func": "msg.payload=msg.payload.val;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 600,
+        "wires": [
+            [
+                "729253dd0ba0052c"
+            ]
+        ]
+    },
+    {
+        "id": "3e2cf3aea170626d",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "prepare mqtt data",
+        "func": "msg.topic='sensorTag/accelerometer_' + msg.topic;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 980,
+        "wires": [
+            [
+                "9a701dd72b5c9546"
+            ]
+        ]
+    },
+    {
+        "id": "a0371155b68fd421",
+        "type": "ui_media",
+        "z": "ea5d4dd247fe2c99",
+        "group": "c519da4c.f6bf9",
+        "name": "",
+        "width": 0,
+        "height": 0,
+        "order": 1,
+        "category": "grafana_logo",
+        "file": "470px-Grafana_logo.svg.png",
+        "layout": "adjust",
+        "showcontrols": true,
+        "loop": true,
+        "onstart": false,
+        "muted": true,
+        "scope": "local",
+        "tooltip": "",
+        "x": 510,
+        "y": 1380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "843f8b82d7c3bbe9",
+        "type": "mqtt-check",
+        "z": "ea5d4dd247fe2c99",
+        "host": "broker.hivemq.com",
+        "port": "1883",
+        "username": "",
+        "password": "",
+        "name": "",
+        "x": 920,
+        "y": 1540,
+        "wires": [
+            [
+                "5ad0a372aeb597ff",
+                "0fed9825b2eadb64"
+            ]
+        ]
+    },
+    {
+        "id": "5ad0a372aeb597ff",
+        "type": "debug",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "mqttCheck",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "68aaacb860d3cda3",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b36835532e52da57",
+        "type": "comment",
+        "z": "ea5d4dd247fe2c99",
+        "name": "mqtt integration",
+        "info": "",
+        "x": 680,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "726f8ba40760816e",
+        "type": "inject",
+        "z": "ea5d4dd247fe2c99",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 730,
+        "y": 1540,
+        "wires": [
+            [
+                "843f8b82d7c3bbe9"
+            ]
+        ]
+    },
+    {
+        "id": "831632ce660922c6",
+        "type": "ui_led",
+        "z": "ea5d4dd247fe2c99",
+        "order": 6,
+        "group": "41f30851e6cb7102",
+        "width": 0,
+        "height": 0,
+        "label": "MQTT",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "mqtt health",
+        "x": 1290,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "0fed9825b2eadb64",
+        "type": "function",
+        "z": "ea5d4dd247fe2c99",
+        "name": "led function",
+        "func": "if ( msg.mqttCheck.connected )\n    msg.payload = true\nelse\n    msg.payload = false\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 1540,
+        "wires": [
+            [
+                "831632ce660922c6"
+            ]
         ]
     },
     {

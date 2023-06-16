@@ -194,7 +194,7 @@ parts:
       cd $CRAFT_PART_INSTALL/lib/node_modules/@abandonware/bluetooth-hci-socket && /lib/node_modules/@mapbox/node-pre-gyp/bin/node-pre-gyp install --fallback-to-build --target_arch=$CRAFT_TARGET_ARCH
 
       # install global modules
-      npm install --no-audit --no-fund --prefix $CRAFT_PART_INSTALL/lib utf8 uuid node-red node-red-node-ping node-red-node-random node-red-node-serialport node-red-node-data-generator node-red-dashboard node-red-contrib-ui-multistate-switch node-red-node-ui-table node-red-contrib-ui-media node-red-contrib-tableify node-red-contrib-ui-led node-red-contrib-controltimer @dbruno74/node-red-node-sensortag @dbruno74/node-red-node-snapd
+      npm install --no-audit --no-fund --prefix $CRAFT_PART_INSTALL/lib utf8 uuid node-red node-red-node-ping node-red-node-random node-red-node-serialport node-red-node-data-generator node-red-dashboard node-red-contrib-ui-multistate-switch node-red-node-ui-table node-red-contrib-ui-media node-red-contrib-tableify node-red-contrib-ui-led node-red-contrib-controltimer node-red-contrib-mqtt-connection-check @dbruno74/node-red-node-sensortag @dbruno74/node-red-node-snapd
 
       # some cleaning ...
       find $CRAFT_PART_INSTALL -type f -name '*.js.swp' -delete

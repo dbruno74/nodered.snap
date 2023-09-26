@@ -13,3 +13,4 @@ parts
 prime
 stage
 package-lock.json
+squashfs-root

@@ -245,7 +245,8 @@ parts:
     override-build: |
       . ~/.cross-env 
       prepare
-      craftctl default
+      mkdir -p $CRAFT_PART_INSTALL/config
+      cp -r $CRAFT_PROJECT_DIR/config/* $CRAFT_PART_INSTALL/config/
 
 plugs:
   writable:

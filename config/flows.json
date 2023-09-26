@@ -94,7 +94,7 @@
         "id": "c1a63c15a73b6735",
         "type": "ui_tab",
         "name": "Sensors",
-        "icon": "dashboard",
+        "icon": "fa-thermometer",
         "order": 3,
         "disabled": false,
         "hidden": false
@@ -103,7 +103,7 @@
         "id": "862cabe5ab0b919d",
         "type": "ui_tab",
         "name": "Device",
-        "icon": "dashboard",
+        "icon": "fa-microchip",
         "order": 1,
         "disabled": false,
         "hidden": false
@@ -149,7 +149,7 @@
                     "edited": true
                 },
                 "page-sidebar-backgroundColor": {
-                    "value": "#1e1018",
+                    "value": "#000000",
                     "edited": true
                 },
                 "group-textColor": {
@@ -157,7 +157,7 @@
                     "edited": true
                 },
                 "group-borderColor": {
-                    "value": "#740946",
+                    "value": "#000007",
                     "edited": true
                 },
                 "group-backgroundColor": {
@@ -189,10 +189,10 @@
             }
         },
         "site": {
-            "name": "Node-RED Dashboard",
+            "name": "Node-RED Sensor Demo",
             "hideToolbar": "false",
             "allowSwipe": "false",
-            "lockMenu": "false",
+            "lockMenu": "true",
             "allowTempTheme": "true",
             "dateFormat": "DD/MM/YYYY",
             "sizes": {
@@ -222,7 +222,7 @@
         "id": "057c895eb377e151",
         "type": "ui_tab",
         "name": "Software",
-        "icon": "dashboard",
+        "icon": "fa-wrench",
         "order": 4,
         "disabled": false,
         "hidden": false
@@ -284,7 +284,7 @@
         "type": "ui_tab",
         "z": "a9aa78485087f860",
         "name": "REST API",
-        "icon": "dashboard",
+        "icon": "fa-eye",
         "order": 5,
         "disabled": false,
         "hidden": false
@@ -392,33 +392,6 @@
         "type": "mqtt-broker",
         "name": "Hivemq",
         "broker": "broker.hivemq.com",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "4ec9505b5b84225b",
-        "type": "mqtt-broker",
-        "name": "test",
-        "broker": "test.broker.br",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,
@@ -1530,7 +1503,6 @@
         "timerMaxLoopIterations": 2,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "false",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": false,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": false,
@@ -2631,7 +2603,6 @@
         "timerMaxLoopIterations": 0,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": false,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": true,
@@ -3010,6 +2981,69 @@
         ]
     },
     {
+        "id": "ed8e4681cc15514a",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "41f30851e6cb7102",
+        "name": "Background image / Wallpaper",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<link rel=\"stylesheet\" href=\"/uimedia/fonts/ubuntu-fonts.css\">\n\n<style>\n    body {\n        background-image: url(\"/uimedia/wallpaper/wallpaper.png\");\n        background-size: cover;\n    }\n\n</style>\n<style>\n    .nr-dashboard-theme {\n     font-family: ubunturegular\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 170,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32cac5852887575c",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "c519da4c.f6bf9",
+        "name": "Banderole",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n .md-toolbar-tools {\n     background-color: #000000; \n }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 110,
+        "y": 1700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ff28f78e.f7d758",
+        "type": "ui_template",
+        "z": "ea5d4dd247fe2c99",
+        "group": "c519da4c.f6bf9",
+        "name": "Logo / Clock",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<script id=\"clockScript1\" type=\"text/javascript\">\n    var clockInterval;\n    $(function () {\n        if (clockInterval) return;\n\n        //add logo\n        var div1 = $('<div/>');\n        var div3 = $('<div/>');\n        var logo = new Image();\n\n        logo.src = '/uimedia/canonical_logo/logo.svg'\n        logo.height = 45;\n        div3[0].style.margin = '10px'\n\n        div1.append(logo);\n\n        //add clock\n        var div2 = $('<div/>');\n        var p = $('<p/>');\n\n        div2.append(p);\n        div2[0].style.margin = '5px';\n\n        function displayTime() {\n            p.text(new Date().toLocaleString());\n        }\n        \n        clockInterval = setInterval(displayTime, 1000);\n\n        //add to toolbar when it's available\n        var addToToolbarTimer;\n        \n        function addToToolbar() {\n            var toolbar = $('.md-toolbar-tools');\n            \n            if(!toolbar.length) return;\n            \n            toolbar.prepend(div3);\n            toolbar.prepend(div1);\n            toolbar.append(h1);\n            //toolbar.append(div2); //don't want clock\n            clearInterval(addToToolbarTimer);\n        }\n        addToToolbarTimer = setInterval(addToToolbar, 100);\n    });\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "global",
+        "className": "",
+        "x": 110,
+        "y": 1760,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "7fa903afbafef497",
         "type": "snapd",
         "z": "a9aa78485087f860",
@@ -3258,30 +3292,6 @@
         ]
     },
     {
-        "id": "f1772b8e7cddb8de",
-        "type": "ui_media",
-        "z": "a9aa78485087f860",
-        "group": "c519da4c.f6bf9",
-        "name": "",
-        "width": 0,
-        "height": 0,
-        "order": 2,
-        "category": "canonical_logo",
-        "file": "Canonical_logo_white.png",
-        "layout": "adjust",
-        "showcontrols": true,
-        "loop": true,
-        "onstart": false,
-        "muted": false,
-        "scope": "local",
-        "tooltip": "",
-        "x": 1070,
-        "y": 100,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "6066e10048304e3a",
         "type": "ui_button",
         "z": "a9aa78485087f860",
@@ -3320,27 +3330,6 @@
             [
                 "f535505e46af34cc"
             ]
-        ]
-    },
-    {
-        "id": "ff28f78e.f7d758",
-        "type": "ui_template",
-        "z": "a9aa78485087f860",
-        "group": "c519da4c.f6bf9",
-        "name": "Logo / Clock",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<script id=\"clockScript1\" type=\"text/javascript\">\n    var clockInterval;\n    $(function () {\n        if (clockInterval) return;\n\n        //add logo\n        var div1 = $('<div/>');\n        var logo = new Image();\n\n        logo.src = '/uimedia/canonical_logo/Canonical_logo_white.png'\n        logo.height = 45;\n        div1[0].style.margin = '10px auto';\n\n        div1.append(logo);\n\n        //add clock\n        var div2 = $('<div/>');\n        var p = $('<p/>');\n\n        div2.append(p);\n        div2[0].style.margin = '5px';\n\n        function displayTime() {\n            p.text(new Date().toLocaleString());\n        }\n        \n        clockInterval = setInterval(displayTime, 1000);\n\n        //add to toolbar when it's available\n        var addToToolbarTimer;\n        \n        function addToToolbar() {\n            var toolbar = $('.md-toolbar-tools');\n            \n            if(!toolbar.length) return;\n            \n            toolbar.append(div1);\n            //toolbar.append(div2); //don't want clock\n            clearInterval(addToToolbarTimer);\n        }\n        addToToolbarTimer = setInterval(addToToolbar, 100);\n    });\n</script>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "global",
-        "className": "",
-        "x": 1230,
-        "y": 100,
-        "wires": [
-            []
         ]
     },
     {
@@ -5513,7 +5502,6 @@
         "timerMaxLoopIterations": 0,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": true,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": false,
@@ -6248,7 +6236,6 @@
         "timerMaxLoopIterations": 0,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": true,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": false,
@@ -6403,7 +6390,6 @@
         "timerMaxLoopIterations": 0,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": true,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": false,
@@ -6511,7 +6497,6 @@
         "timerMaxLoopIterations": 0,
         "loopMaxIterationsMessageType": "str",
         "loopMaxIterationsMessage": "MAX_LOOP_ITERATIONS",
-        "isConsecutiveStartActionTimerResetAllowed": false,
         "isRunningTimerProgressVisible": true,
         "outputReceivedMessageOnTimerTrigger": false,
         "outputReceivedMessageOnTimerHalt": false,

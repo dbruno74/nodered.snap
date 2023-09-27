@@ -3023,27 +3023,6 @@
         ]
     },
     {
-        "id": "ff28f78e.f7d758",
-        "type": "ui_template",
-        "z": "ea5d4dd247fe2c99",
-        "group": "c519da4c.f6bf9",
-        "name": "Logo / Clock",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<script id=\"clockScript1\" type=\"text/javascript\">\n    var clockInterval;\n    $(function () {\n        if (clockInterval) return;\n\n        //add logo\n        var div1 = $('<div/>');\n        var div3 = $('<div/>');\n        var logo = new Image();\n\n        logo.src = '/uimedia/canonical_logo/logo.svg'\n        logo.height = 45;\n        div3[0].style.margin = '10px'\n\n        div1.append(logo);\n\n        //add clock\n        var div2 = $('<div/>');\n        var p = $('<p/>');\n\n        div2.append(p);\n        div2[0].style.margin = '5px';\n\n        function displayTime() {\n            p.text(new Date().toLocaleString());\n        }\n        \n        clockInterval = setInterval(displayTime, 1000);\n\n        //add to toolbar when it's available\n        var addToToolbarTimer;\n        \n        function addToToolbar() {\n            var toolbar = $('.md-toolbar-tools');\n            \n            if(!toolbar.length) return;\n            \n            toolbar.prepend(div3);\n            toolbar.prepend(div1);\n            toolbar.append(h1);\n            //toolbar.append(div2); //don't want clock\n            clearInterval(addToToolbarTimer);\n        }\n        addToToolbarTimer = setInterval(addToToolbar, 100);\n    });\n</script>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "global",
-        "className": "",
-        "x": 110,
-        "y": 1760,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "7fa903afbafef497",
         "type": "snapd",
         "z": "a9aa78485087f860",
